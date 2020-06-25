@@ -1,0 +1,112 @@
+#listaDados {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    position: relative;
+
+}
+
+#listaDados td, #listaDados th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    font-family: arial;
+    font-size: 16px;
+}
+
+#listaDados td input placeholder {
+    text-align: center;
+}
+
+#listaDados tr:nth-child(even){background-color: #f2f2f2;}
+
+#listaDados tr:hover {background-color: #ddd;}
+
+#listaDados th {
+    padding-top: 12px;
+    padding-bottom: 12px;    
+    background-color: #4CAF50;
+    color: white;
+}
+
+.cadastro {
+    width: 75%;
+}
+
+
+/* estilos da pesquisa */
+main div#janela_login {
+    width:860px;
+    margin:100px auto 30px;
+}
+
+main div#janela_login form {
+    width:470px;
+    margin:10px auto;
+}
+
+main div#janela_login form h2  {
+    font-family: sans-serif;
+    color:#C5996B;
+}
+
+main div#janela_login form p {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    background: #F00;
+    color: #FFF;
+    padding: 10px;
+    border-radius: 5px;
+    width:120px;
+    text-align: center;
+}
+
+main div#janela_login form input[type="text"] {
+    width:280px;
+    padding:10px;
+    border:1px solid #CDC99B;
+    border-radius: 5px;
+    outline: none;
+}
+
+main div#janela_login form input[type="password"] {
+    width:280px;
+    padding:10px;
+    margin-top:15px;
+    border:1px solid #CDC99B;
+    border-radius: 5px;
+    outline: none;
+}
+
+#janela_login input[type="submit"] {
+    display: block;
+    padding:10px 20px;
+    margin-top:15px;
+    color: #FFF;
+    border:0;
+    border-radius: 5px;
+    background-color: #C5996B;
+    outline: none;
+    cursor: pointer;
+}
+
+footer {
+    clear: both;
+    width:100%;
+    height:60px;
+    border-top:1px solid #ddd;
+}
+
+div#footer_central {
+    width:800px;
+    margin:0 auto;
+}
+
+div#footer_central p {
+    font-family: sans-serif;
+    font-size: 11px;
+    text-align: center
+}
