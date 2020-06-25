@@ -38,7 +38,7 @@ try {
             ?>
             <div class="row">
                 <div class="col-12">
-                    <h3 class="h3 text-center text-primary">Alterar Fornecedor</h3>
+                    <h3 class="h3 text-center bg-dark text-light">Alterar Fornecedor</h3>
                 </div>
             </div>
             <div class="row">

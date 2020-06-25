@@ -9,7 +9,7 @@ try {
     ?>
     <div class="row">
         <div class="col-12">
-            <h3 class="h3 text-center text-primary">Cadastro Clientes</h3>
+            <h3 class="h3 text-center bg-dark text-light">Cadastro Clientes</h3>
         </div>
     </div>
     <div class="row">
