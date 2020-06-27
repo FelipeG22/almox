@@ -47,10 +47,16 @@ try {
                         $pesq = $_POST['pesq'];
                         $produto = DBRead('produto', "WHERE `nome_produto` LIKE '%{$pesq}%'"
                                 . " OR `lote_produto`  LIKE '%{$pesq}%'"
-                                . " OR `fabricacao_produto`  LIKE '%{$pesq}%'"
+                                . " OR fabricacao_produto LIKE '%{$pesq}%'"
                                 . " OR `validade_produto`  LIKE '%{$pesq}%'"
                                 . " OR `apresentacao_produto`  LIKE '%{$pesq}%'"
-                                . " ORDER BY `nome_produto`");
+                                . " ORDER BY `nome_produto`",
+                                        "id_produto as id,"
+                                        . "nome_produto as nome,"
+                                        . "lote_produto as lote,"
+                                        . "apresentacao_produto as ap,"
+                                        . "DATE_FORMAT(fabricacao_produto, '%d/%m/%Y') as dtf,"
+                                        . "DATE_FORMAT(validade_produto, '%d/%m/%Y') as dtv");
                         if ($produto == false) {
                             ?>
                             <tr>
@@ -63,16 +69,16 @@ try {
                                 ?>
                                 <tr>
                                     <th scope="row"><?php echo $q++; ?></th>
-                                    <td><?php echo $a['nome_produto'] ?></td>
-                                    <td><?php echo $a['lote_produto'] ?></td>
-                                    <td><?php echo $a['apresentacao_produto'] ?></td>
-                                    <td><?php echo date_format(date_create($a['fabricacao_produto']), "d/m/Y") ?></td>
-                                    <td><?php echo date_format(date_create($a['validade_produto']), "d/m/Y") ?></td>
-                                    <td title="Entrada"><a href="entrada_produto.php?p=<?php echo $a['id_produto'] ?>" onclick="return confirm('Deseja dar entrada deste Produto no Estoque?')"><img src="../_assets/_img/application_form_add.png" /></a></td>
-                                    <td title="Saída"><a href="saida_produto.php?p=<?php echo $a['id_produto'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/application_form_delete.png" /></a></td>
-                                    <td title="Gerar"><a href="rastreamento.php?p=<?php echo $a['id_produto'] ?>" onclick="return confirm('Deseja fazer rastreamento do Produto?')"><img src="../_assets/_img/application_form.png" /></a></td>
-                                    <td title="Alterar"><a href="alt_produto.php?p=<?php echo $a['id_produto'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
-                                    <td title="Excluir"><a href="del_produto.php?p=<?php echo $a['id_produto'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                    <td><?php echo $a['nome'] ?></td>
+                                    <td><?php echo $a['lote'] ?></td>
+                                    <td><?php echo $a['ap'] ?></td>
+                                    <td><?php echo $a['dtf'] ?></td>
+                                    <td><?php echo $a['dtv'] ?></td>
+                                    <td title="Entrada"><a href="entrada_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja dar entrada deste Produto no Estoque?')"><img src="../_assets/_img/application_form_add.png" /></a></td>
+                                    <td title="Saída"><a href="saida_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/application_form_delete.png" /></a></td>
+                                    <td title="Gerar"><a href="rastreamento.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja fazer rastreamento do Produto?')"><img src="../_assets/_img/application_form.png" /></a></td>
+                                    <td title="Alterar"><a href="alt_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
+                                    <td title="Excluir"><a href="del_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                 </tr>
                                 <?php
                             }

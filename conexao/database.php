@@ -1,13 +1,33 @@
 ﻿<?php
+// Cadastro Entrada de Produtos
+if (isset($_POST['btentproduto'])) {
 
+    $dados = array(
+        'id_usuario' => addslashes($_SESSION['id']),
+        'id_produto' => addslashes($_POST['id_produto']),
+        'id_fornecedor' => addslashes($_POST['id_fornecedor']),
+        'nota_fiscal_entrada_produto' => addslashes($_POST['guia']),
+        'data_entrada_produto' => addslashes($_POST['data']),
+        'transporte_entrada_produto' => addslashes($_POST['transportadora']),
+        'quantidade_entrada_produto' => addslashes($_POST['quantidade'])
+    );
+
+    $deubomentproduto = DBCreate('entrada_produto', $dados);
+
+    if ($deubomentproduto) {
+        header("Location:../php/list_produto.php");
+    } else {
+        echo "<script>alert('Erro ao dar entrada!');</script>";
+    }
+}
 // Cadastro cliente
 if (isset($_POST['btcadcliente'])) {
 
     $dados = array(
-        'nome_cliente'     => addslashes($_POST['nome_cliente']),
-        'email_cliente'    => addslashes($_POST['email_cliente']),
+        'nome_cliente' => addslashes($_POST['nome_cliente']),
+        'email_cliente' => addslashes($_POST['email_cliente']),
         'telefone_cliente' => addslashes($_POST['telefone_cliente']),
-        'celular_cliente'  => addslashes($_POST['celular_cliente']),
+        'celular_cliente' => addslashes($_POST['celular_cliente']),
         'endereco_cliente' => addslashes($_POST['endereco_cliente'])
     );
 
@@ -24,11 +44,11 @@ if (isset($_POST['btcadcliente'])) {
 if (isset($_POST['btcadproduto'])) {
 
     $dados = array(
-        'nome_produto'         => addslashes($_POST['nome_produto']),
-        'lote_produto'         => addslashes($_POST['lote_produto']),
+        'nome_produto' => addslashes($_POST['nome_produto']),
+        'lote_produto' => addslashes($_POST['lote_produto']),
         'apresentacao_produto' => addslashes($_POST['apresentacao_produto']),
-        'fabricacao_produto'   => addslashes($_POST['fabricacao_produto']),
-        'validade_produto'     => addslashes($_POST['validade_produto'])
+        'fabricacao_produto' => addslashes($_POST['fabricacao_produto']),
+        'validade_produto' => addslashes($_POST['validade_produto'])
     );
 
     $deubomcadprodut = DBCreate('produto', $dados);
@@ -44,11 +64,11 @@ if (isset($_POST['btcadproduto'])) {
 if (isset($_POST['btcadfornecedor'])) {
 
     $dados = array(
-        'nome_fornecedor'     => addslashes($_POST['nome_fornecedor']),
+        'nome_fornecedor' => addslashes($_POST['nome_fornecedor']),
         'telefone_fornecedor' => addslashes($_POST['telefone_fornecedor']),
-        'celular_fornecedor'  => addslashes($_POST['celular_fornecedor']),
-        'email_fornecedor'    => addslashes($_POST['email_fornecedor']),
-        'cnpj_fornecedor'     => addslashes($_POST['cnpj_fornecedor']),
+        'celular_fornecedor' => addslashes($_POST['celular_fornecedor']),
+        'email_fornecedor' => addslashes($_POST['email_fornecedor']),
+        'cnpj_fornecedor' => addslashes($_POST['cnpj_fornecedor']),
         'endereco_fornecedor' => addslashes($_POST['endereco_fornecedor'])
     );
 

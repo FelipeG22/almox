@@ -4,7 +4,7 @@ require_once 'head.php';
 require_once '..\conexao\config.php';
 require_once '..\conexao\conexao.php';
 require_once '..\conexao\database.php';
-require_once 'header.php'
+require_once 'header.php';
 ?>
 <div class="row">
     <div class="col-12">
@@ -14,7 +14,7 @@ require_once 'header.php'
 <div class="row navbar">
     <div class="col-4 mr-auto"><a href="insert_fornecedor.php"><img src="../_assets/_img/user_add.png" /> adicionar</a></div>
     <div class="col-auto">
-        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="form-inline">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="form-inline">
             <input class="form-control mr-sm-2" type="search" required placeholder="fornecedor, cnpj, celular" name="pesq" aria-label="Search">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="btpesq">Pesquisar</button>
         </form>

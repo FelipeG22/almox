@@ -41,7 +41,7 @@ try {
                     <input class="form-control" type="date" id="validade" name="validade_produto" required>
                 </div>
             </div>
-            <button type="submit" name="btcadproduto" class="btn btn-primary">Cadastrar</button>
+            <button type="submit" name="btcadproduto" class="btn btn-primary" onclick="return confirm('Os dados estão corretos?')">Cadastrar</button>
             <button type="reset" class="btn btn-danger">Limpar</button>
         </form>
         <div class="col-1"></div>
