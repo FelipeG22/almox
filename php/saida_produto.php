@@ -13,7 +13,7 @@ try {
         ?>
         <div class = "row">
             <div class = "col-12">
-                <h3 class = "h3 text-center bg-dark text-light">Recebimento de Produto</h3>
+                <h3 class = "h3 text-center bg-dark text-light">Expedição de Produto</h3>
             </div>
         </div>
         <div class = "row">
@@ -26,17 +26,17 @@ try {
         </div>
         <?php
     } else {
-//Tem o id do produto, agora preciso do fornecedor
+//Tem o id do produto, agora preciso do cliente
         ?>
         <div class = "row">
             <div class = "col-12">
-                <h3 class = "h3 text-center bg-dark text-light">Recebimento de Produto</h3>
+                <h3 class = "h3 text-center bg-dark text-light">Expedição de Produtos</h3>
             </div>
         </div>
-        <?php if (!isset($_GET['f'])) { ?>
+        <?php if (!isset($_GET['c'])) { ?>
             <div class = "row">
                 <div class = "col-12">
-                    <h3 class = "h3 text-center text-primary">Pesquise e selecione um fornecedor</h3>
+                    <h3 class = "h3 text-center text-primary">Pesquise e selecione um cliente</h3>
                 </div>
             </div>
         <?php } ?>
@@ -44,8 +44,8 @@ try {
             <div class = "col-1 mr-auto"></div>
             <div class = "col-auto">
                 <form action = "<?php echo $_SERVER['PHP_SELF'] . "?p=" . $_GET['p'] ?>" method = "post" class = "form-inline">
-                    <label class = "mr-sm-2" for = "pesqcli">Fornecedor:</label>
-                    <input class = "form-control mr-sm-2" type = "search" id = "pesqcli" name = "pesq" required placeholder="fornecedor, cnpj"  aria-label = "Search">
+                    <label class = "mr-sm-2" for = "pesqcli">Cliente:</label>
+                    <input class = "form-control mr-sm-2" type = "search" id = "pesqcli" name = "pesq" required placeholder="cliente, email"  aria-label = "Search">
                     <button class = "btn btn-outline-primary my-2 my-sm-0" type = "submit" name = "btpesq">Pesquisar</button>
                 </form>
             </div>
@@ -55,13 +55,12 @@ try {
         if (isset($_POST['btpesq'])) {
 
             $pesq = $_POST['pesq'];
-            $fornecedor = DBRead('fornecedor', "WHERE `nome_fornecedor` LIKE '%{$pesq}%'"
-                    . " OR `endereco_fornecedor`  LIKE '%{$pesq}%'"
-                    . " OR `telefone_fornecedor`  LIKE '%{$pesq}%'"
-                    . " OR `celular_fornecedor`  LIKE '%{$pesq}%'"
-                    . " OR `email_fornecedor`  LIKE '%{$pesq}%'"
-                    . " OR `cnpj_fornecedor`  LIKE '%{$pesq}%'"
-                    . " ORDER BY `nome_fornecedor`");
+            $cliente = DBRead('cliente', "WHERE `nome_cliente` LIKE '%{$pesq}%'"
+                    . " OR `endereco_cliente`  LIKE '%{$pesq}%'"
+                    . " OR `telefone_cliente`  LIKE '%{$pesq}%'"
+                    . " OR `celular_cliente`  LIKE '%{$pesq}%'"
+                    . " OR `email_cliente`  LIKE '%{$pesq}%'"
+                    . " ORDER BY `nome_cliente`");
             ?>
             <div class = "row">
                 <div class = "table-responsive  col-12">
@@ -69,8 +68,7 @@ try {
                         <thead class = "thead-dark">
                             <tr>
                                 <th scope = "row">#</th>
-                                <th scope = "col">Nome / Empresa</th>
-                                <th scope = "col">CNPJ</th>
+                                <th scope = "col">Nome Cliente</th>
                                 <th scope = "col">Email</th>
                                 <th scope = "col">Telefone</th>
                                 <th scope = "col">Celular</th>
@@ -80,25 +78,24 @@ try {
                         </thead>
                         <tbody>
                             <?php
-                            if ($fornecedor == false) {
+                            if ($cliente == false) {
                                 ?>
                                 <tr>
-                                    <td colspan="8">Não existem fornecedores com esta pesquisa</td>
+                                    <td colspan="8">Não existem clientes com esta pesquisa</td>
                                 </tr>                
                                 <?php
                             } else {
                                 $q = 1;
-                                foreach ($fornecedor as $a) {
+                                foreach ($cliente as $a) {
                                     ?>
                                     <tr>
                                         <th scope="row"><?php echo $q++; ?></th>
-                                        <td><?php echo $a['nome_fornecedor'] ?></td>
-                                        <td><?php echo $a['cnpj_fornecedor'] ?></td>
-                                        <td><?php echo $a['email_fornecedor'] ?></td>
-                                        <td><?php echo $a['telefone_fornecedor'] ?></td>
-                                        <td><?php echo $a['celular_fornecedor'] ?></td>
-                                        <td><?php echo $a['endereco_fornecedor'] ?></td>
-                                        <td title="Selecionar"><a href="entrada_produto.php?p=<?php echo $_GET['p'] . '&f=' . $a['id_fornecedor'] ?>" onclick="return confirm('Este é o Fornecedor do Produto?')"><img src="../_assets/_img/user_add.png" /></a></td>
+                                        <td><?php echo $a['nome_cliente'] ?></td>
+                                        <td><?php echo $a['email_cliente'] ?></td>
+                                        <td><?php echo $a['telefone_cliente'] ?></td>
+                                        <td><?php echo $a['celular_cliente'] ?></td>
+                                        <td><?php echo $a['endereco_cliente'] ?></td>
+                                        <td title="Selecionar"><a href="saida_produto.php?p=<?php echo $_GET['p'] . '&c=' . $a['id_cliente'] ?>" onclick="return confirm('Este é o Cliente?')"><img src="../_assets/_img/user_add.png" /></a></td>
                                     </tr>
                                     <?php
                                 }
@@ -110,20 +107,20 @@ try {
             </div>
         </div>
         <?php
-        if (isset($_GET['p']) AND isset($_GET['f'])) {
+        if (isset($_GET['p']) AND isset($_GET['c'])) {
 
             $p = addslashes($_GET['p']);
-            $f = addslashes($_GET['f']);
+            $c = addslashes($_GET['c']);
             $prod = DBRead("produto", "WHERE id_produto = {$p}", "id_produto, nome_produto, lote_produto, apresentacao_produto");
-            $forn = DBRead("fornecedor", "WHERE id_fornecedor = {$f}", "id_fornecedor, nome_fornecedor");
+            $cli = DBRead("cliente", "WHERE id_cliente = {$c}", "id_cliente, nome_cliente");
 
 // se não encontrar os resultados
-            if ($prod == FALSE || $forn == FALSE) {
+            if ($prod == FALSE || $cli == FALSE) {
                 ?>
 
                 <div class = "row">
                     <div class = "col-12">
-                        <h3 class = "h3 text-center text-primary">Selecione um produto e um fornecedor cadastrados</h3>
+                        <h3 class = "h3 text-center text-primary">Selecione um produto e um cliente cadastrados</h3>
                     </div>
                 </div>
 
@@ -131,7 +128,7 @@ try {
             } else {
 
                 foreach ($prod as $p) {
-                    foreach ($forn as $f) {
+                    foreach ($cli as $c) {
                         ?>   
                         <div class="row">
                             <div class="col-1"></div>
@@ -154,10 +151,10 @@ try {
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <input class="form-control" type="hidden" name="id_fornecedor" value="<?php echo $f['id_fornecedor'] ?>" >
+                                    <input class="form-control" type="hidden" name="id_cliente" value="<?php echo $c['id_cliente'] ?>" >
                                     <div class="form-group col-md-7">
-                                        <label for="Fornecedor">Fornecedor</label>
-                                        <input class="form-control" type="text" id="Fornecedor" value="<?php echo $f['nome_fornecedor'] ?>" name="nome_fornecedor" readonly>
+                                        <label for="Fornecedor">Cliente</label>
+                                        <input class="form-control" type="text" id="Fornecedor" value="<?php echo $c['nome_cliente'] ?>" name="nome_cliente" readonly>
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="guia">Guia de Remessa</label>
@@ -180,7 +177,7 @@ try {
                                         <input class="form-control" type="number" max="2000000000" id="Quantidade" name="quantidade" required>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary" name="btentproduto" onclick="return confirm('Os dados estão corretos?')" >Cadastrar</button>
+                                <button type="submit" class="btn btn-primary" name="btsaidaproduto" onclick="return confirm('Os dados estão corretos?')" >Cadastrar</button>
                                 <button type="reset" class="btn btn-danger">Limpar</button>
                             </form>
                             <div class="col-1"></div>

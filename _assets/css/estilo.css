@@ -110,3 +110,9 @@ div#footer_central p {
     font-size: 11px;
     text-align: center
 }
+@media print {
+    .container {
+        width: auto;
+    }
+    content: url("../_img/lqfex_logo.png");
+}

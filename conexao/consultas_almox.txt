@@ -1,0 +1,9 @@
+SELECT p.nome_produto, p.lote_produto, p.apresentacao_produto, SUM(ep.quantidade_entrada_produto) as total 
+FROM cw_entrada_produto ep 
+INNER JOIN cw_produto p ON ep.id_produto = p.id_produto 
+WHERE ep.id_produto = 4;
+
+SELECT ep.data_entrada_produto as dtExp, ep.nota_fiscal_entrada_produto as guia, ep.quantidade_entrada_produto as quantidade, ep.transporte_entrada_produto as transp, f.nome_fornecedor, f.endereco_fornecedor, f.cnpj_fornecedor 
+FROM cw_entrada_produto ep 
+INNER JOIN cw_fornecedor f ON f.id_fornecedor = ep.id_fornecedor 
+WHERE ep.id_produto = 4;

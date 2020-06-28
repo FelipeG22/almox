@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light sticky-top mb-3" style="font-size: 18px;">
         <a class="navbar-brand" href="home.php">
-            <img class="" src="../_assets/_img/lqfex_logo.png" width="50" height="50" alt="" loading="lazy" >
+            <img src="../_assets/_img/lqfex_logo.png" width="50" height="50" alt="" loading="lazy" >
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,6 +28,18 @@
                         <a class="dropdown-item" href="list_cliente.php">Cliente</a>
                         <a class="dropdown-item" href="list_fornecedor.php">Fornecedor</a>
                         <a class="dropdown-item" href="list_produto.php">Produto</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Rastreamento
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="entrada_produto.php">Recebimento</a>
+                        <a class="dropdown-item" href="saida_produto.php">Expedir</a>
+                        <a class="dropdown-item" href="rastreamento.php">Pesquisar</a>
                     </div>
                 </li>
             </ul>
