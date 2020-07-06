@@ -9,6 +9,7 @@
             'id_cliente' => addslashes($_POST['id_cliente']),
             'guia_saida_produto' => addslashes($_POST['guia']),
             'data_saida_produto' => addslashes($_POST['data']),
+            'id_tipo_pedido' => addslashes($_POST['tp']),
             'transporte_saida_produto' => addslashes($_POST['transportadora']),
             'quantidade_saida_produto' => addslashes($_POST['quantidade'])
         );
@@ -125,12 +126,17 @@
                 session_start();
                 $_SESSION['id'] = $id;
                 $_SESSION['apelido'] = $apelido;
-                header("Location:php\home.php");
+                echo "<script language='JavaScript'>location.href='php/home.php'</script>";
                 //echo "<script>alert('Login sucesso!');</script>";
             }
         } else {
             echo "<script>alert('Usuário ou senha incorretos!');</script>";
         }
+    }
+    
+// paginação
+    function Paginacao($query){
+        return mysqli_num_rows(DBExecute($query));
     }
 
 // Deleta Registro

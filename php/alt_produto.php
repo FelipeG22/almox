@@ -19,14 +19,14 @@ try {
         $deubomalt = DBUpdate('produto', $altdados, "WHERE id_produto = '{$a}'");
 
         if ($deubomalt) {
-            header("Location:list_produto.php");
+            echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
         } else {
             echo "<script>alert('Erro ao alterar os dados!');</script>";
         }
     }
 
     if (!($_GET['p'])) {
-        header("Location:list_produto.php");
+        echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
     } else {
         $a = $_GET['p'];
         $alt_produto = DBRead('produto', " WHERE id_produto = '{$a}'");
@@ -45,6 +45,7 @@ try {
                 <form style="padding: 2%;" class="col-10 border border-secondary" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" autocomplete="on">
                     <div class="form-row">
                         <div class="form-group col-md-12">
+                            <input class="form-control" type="hidden" value="<?php echo $altp['id_produto'] ?>" name="id_produto">
                             <label for="nome">Produto</label>
                             <input class="form-control" type="text" id="nome" value="<?php echo $altp['nome_produto'] ?>" name="nome_produto" maxlength="100" required autofocus placeholder="Produto">
                         </div>

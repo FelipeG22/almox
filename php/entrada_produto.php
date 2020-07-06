@@ -160,7 +160,7 @@ try {
                                         <input class="form-control" type="text" id="Fornecedor" value="<?php echo $f['nome_fornecedor'] ?>" name="nome_fornecedor" readonly>
                                     </div>
                                     <div class="form-group col-md-5">
-                                        <label for="guia">Guia de Remessa</label>
+                                        <label for="guia">Nota Fiscal</label>
                                         <input class="form-control" type="text" id="guia" name="guia" maxlength="50" required>
                                     </div>
                                 </div>

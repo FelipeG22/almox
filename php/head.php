@@ -7,11 +7,11 @@ if (isset($_SESSION['id']) && isset($_SESSION['apelido'])) {
         $_SESSION['count'] = $counter;
     }
     if ($counter - $_SESSION['count'] >= 600) {
-        header("Location:sair.php");
+        echo "<script language='JavaScript'>location.href='sair.php'</script>";
     }
     $_SESSION['count'] = $counter;
 } else {
-    header("Location:sair.php");
+    echo "<script language='JavaScript'>location.href='sair.php'</script>";
 }
 ?>
 <html lang="pt-BR">

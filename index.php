@@ -3,6 +3,7 @@ try {
     require 'conexao\config.php';
     require 'conexao\conexao.php';
     require 'conexao\database.php';
+    
     ?>
 
     <!DOCTYPE html>

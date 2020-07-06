@@ -31,9 +31,13 @@ try {
 
         <?php
         $p = addslashes($_GET['p']);
+        //pega o produto
         $prod = DBRead("produto", "WHERE id_produto = {$p}", "id_produto, nome_produto, lote_produto, apresentacao_produto");
+        //pega a soma de todas as entradas
         $total_ent = DBRead("entrada_produto", "WHERE id_produto = {$p}", "SUM(quantidade_entrada_produto) as qdtentp");
+        //pega a soma de todas as saídas
         $total_sai = DBRead("saida_produto", "WHERE id_produto = {$p}", "SUM(quantidade_saida_produto) as qdtsaip");
+        //pega todas as entradas do produto especificado
         $entrada = DBRead("entrada_produto ep", "INNER JOIN cw_fornecedor f ON ep.id_fornecedor = f.id_fornecedor "
                 . "WHERE id_produto = {$p}", "DATE_FORMAT(ep.data_entrada_produto, '%d/%m/%Y') as dtexp, "
                 . "ep.id_entrada_produto as id,"
@@ -42,13 +46,16 @@ try {
                 . "ep.transporte_entrada_produto as transp, "
                 . "f.nome_fornecedor, "
                 . "f.cnpj_fornecedor");
+        //pega todas as saidas do produto especificado
         $saida = DBRead("saida_produto sp", "INNER JOIN cw_cliente c ON sp.id_cliente = c.id_cliente "
+                . "INNER JOIN cw_tipo_pedido tp ON sp.id_tipo_pedido = tp.id_tipo_pedido "
                 . "WHERE id_produto = {$p}", "DATE_FORMAT(sp.data_saida_produto, '%d/%m/%Y') as dtsai, "
                 . "sp.id_saida_produto as id,"
                 . "sp.guia_saida_produto as guia, "
                 . "sp.quantidade_saida_produto as quant, "
                 . "sp.transporte_saida_produto as transp, "
-                . "c.nome_cliente");
+                . "c.nome_cliente, "
+                . "tp.tipo_pedido as tp");
 
 // se não encontrar os resultados
         if ($prod == FALSE) {
@@ -122,7 +129,7 @@ try {
                                                 <th scope="col">Quantidade</th>
                                                 <th scope="col">Fornecedor / CNPJ</th>
                                                 <th scope="col">Transportadora</th>
-                                                <th scope="col" class="d-print-none" colspan="2">Ação</th>
+                                                <th scope="col" class="d-print-none">Ação</th>
                                             </tr>
                                         </thead>
                                         <?php
@@ -143,8 +150,7 @@ try {
                                                     <td><?php echo $e['quant'] ?></td>
                                                     <td><?php echo $e['nome_fornecedor'] . "<br>" . $e['cnpj_fornecedor'] ?></td>
                                                     <td><?php echo $e['transp'] ?></td>
-                                                    <td class="d-print-none" title="Alterar"><a href="alt_entrada_produto.php?k=<?php echo $e['id'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
-                                                    <td class="d-print-none" title="Excluir"><a href="del_entrada_produto.php?k=<?php echo $e['id'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                                    <td class="d-print-none" title="Excluir"><a href="del_entrada_produto.php?e=<?php echo $e['id'] ?>" onclick="return confirm('Deseja excluir este Lançamento?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -169,11 +175,11 @@ try {
                                                 <th scope="col">Quantidade</th>
                                                 <th scope="col">Cliente</th>
                                                 <th scope="col">Transportadora</th>
-                                                <th scope="col" class="d-print-none" colspan="2">Ação</th>
+                                                <th scope="col" class="d-print-none">Ação</th>
                                             </tr>
                                         </thead>
                                         <?php
-                                        if ($entrada == false) {
+                                        if ($saida == false) {
                                             ?>
                                             <tr>
                                                 <td colspan="8">Não possui expedição lançada deste Produto</td>
@@ -181,17 +187,16 @@ try {
                                             <?php
                                         } else {
                                             $q = 1;
-                                            foreach ($saida as $e) {
+                                            foreach ($saida as $s) {
                                                 ?>
                                                 <tr>
                                                     <th scope="row"><?php echo $q++; ?></th>
-                                                    <td><?php echo $e['dtsai'] ?></td>
-                                                    <td><?php echo $e['guia'] ?></td>
-                                                    <td><?php echo $e['quant'] ?></td>
-                                                    <td><?php echo $e['nome_cliente'] ?></td>
-                                                    <td><?php echo $e['transp'] ?></td>
-                                                    <td class="d-print-none" title="Alterar"><a href="alt_produto.php?p=<?php echo $e['id'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
-                                                    <td class="d-print-none" title="Excluir"><a href="del_produto.php?p=<?php echo $e['id'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                                    <td><?php echo $s['dtsai'] ?></td>
+                                                    <td><?php echo $s['guia'] . " / " . $s['tp'] ?> </td>
+                                                    <td><?php echo $s['quant'] ?></td>
+                                                    <td><?php echo $s['nome_cliente'] ?></td>
+                                                    <td><?php echo $s['transp'] ?></td>
+                                                    <td class="d-print-none" title="Excluir"><a href="del_saida_produto.php?e=<?php echo $s['id'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -214,8 +219,12 @@ try {
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-5 d-print-none"><a href="list_produto.php"><img src="../_assets/_img/table_go.png" /> Lista Produtos</a></div>
-                            <button class="btn btn-primary d-print-none" onclick="print()">Imprimir</button>
+                            <div class="col mr-auto"></div>
+                            <button class="btn btn-primary col-auto d-print-none" onclick="print()">Imprimir</button>
+                            <div class="col ml-auto"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-print-none"><a href="list_produto.php"><img src="../_assets/_img/table_go.png" /> Lista Produtos</a></div>
                         </div>
                         <?php
                     }

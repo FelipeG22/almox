@@ -55,6 +55,7 @@ try {
         if (isset($_POST['btpesq'])) {
 
             $pesq = $_POST['pesq'];
+            //pega o cliente com a pesquisa
             $cliente = DBRead('cliente', "WHERE `nome_cliente` LIKE '%{$pesq}%'"
                     . " OR `endereco_cliente`  LIKE '%{$pesq}%'"
                     . " OR `telefone_cliente`  LIKE '%{$pesq}%'"
@@ -111,8 +112,10 @@ try {
 
             $p = addslashes($_GET['p']);
             $c = addslashes($_GET['c']);
-            $prod = DBRead("produto", "WHERE id_produto = {$p}", "id_produto, nome_produto, lote_produto, apresentacao_produto");
+            $prod = DBRead("produto", "WHERE id_produto = {$p}",
+                    "id_produto, nome_produto, lote_produto, apresentacao_produto");
             $cli = DBRead("cliente", "WHERE id_cliente = {$c}", "id_cliente, nome_cliente");
+            $tipoP = DBRead("tipo_pedido");
 
 // se não encontrar os resultados
             if ($prod == FALSE || $cli == FALSE) {
@@ -175,6 +178,14 @@ try {
                                     <div class="form-group col-md-4">
                                         <label for="Quantidade">Quantidade</label>
                                         <input class="form-control" type="number" max="2000000000" id="Quantidade" name="quantidade" required>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="tp">Tipo Pedido</label>
+                                        <select class="form-control" id="tp" name="tp" required>
+                                            <?php foreach ($tipoP as $tp ){ ?>
+                                            <option value="<?php echo $tp['id_tipo_pedido'] ?>" ><?php echo $tp['tipo_pedido'] ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary" name="btsaidaproduto" onclick="return confirm('Os dados estão corretos?')" >Cadastrar</button>

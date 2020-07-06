@@ -4,9 +4,6 @@ try {
     require_once '..\conexao\config.php';
     require_once '..\conexao\conexao.php';
     require_once '..\conexao\database.php';
-
-
-
     require_once 'header.php';
     ?>
 
@@ -18,8 +15,8 @@ try {
     <div class="row navbar">
         <div class="col-4 mr-auto"><a href="insert_produto.php"><img src="../_assets/_img/package_add.png" /> adicionar</a></div>
         <div class="col-auto">
-            <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="produto, lote, apresentação" name="pesq" aria-label="Search">
+            <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get" class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="produto, lote, apresentação" name="p" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="btpesq">Pesquisar</button>
             </form>
         </div>
@@ -43,8 +40,24 @@ try {
                 </thead>
                 <tbody>
                     <?php
-                    if (isset($_POST['btpesq'])) {
-                        $pesq = addslashes($_POST['pesq']);
+                    if (isset($_GET['p'])) {
+                        $pagina = (isset($_GET['pagina'])) ? (int) $_GET['pagina'] : 1;
+                        $maxlinks = 4;
+                        $maximo = 10;
+                        $inicio = (($maximo * $pagina) - $maximo);
+
+                        //a pesquisa em si
+                        $pesq = addslashes($_GET['p']);
+
+                        //pra saber quantidade total de registros com aquela pesquisa
+                        $total = Paginacao("SELECT id_produto FROM cw_produto "
+                                . "WHERE nome_produto LIKE '%{$pesq}%' "
+                                . "OR `lote_produto` LIKE '%{$pesq}%' "
+                                . "OR fabricacao_produto LIKE '%{$pesq}%' "
+                                . "OR `validade_produto` LIKE '%{$pesq}%' "
+                                . "OR `apresentacao_produto` LIKE '%{$pesq}%'");
+
+                        //pega a quantidade de registros com LIMIT
                         $produto = DBRead('produto', "WHERE `nome_produto` LIKE '%{$pesq}%'"
                                 . " OR `lote_produto`  LIKE '%{$pesq}%'"
                                 . " OR fabricacao_produto LIKE '%{$pesq}%'"
@@ -53,12 +66,17 @@ try {
                                 . " ORDER BY fabricacao_produto, "
                                 . "validade_produto, "
                                 . "`nome_produto`, "
-                                . "lote_produto", "id_produto as id,"
+                                . "lote_produto LIMIT {$inicio}, {$maximo}", "id_produto as id,"
                                 . "nome_produto as nome,"
                                 . "lote_produto as lote,"
                                 . "apresentacao_produto as ap,"
                                 . "DATE_FORMAT(fabricacao_produto, '%d/%m/%Y') as dtf,"
                                 . "DATE_FORMAT(validade_produto, '%d/%m/%Y') as dtv");
+
+                        //quantidade de nº de paginas na paginação 
+                        $total_paginas = ceil($total / $maximo);
+
+                        //verifica se acha alguma coisa
                         if ($produto == false) {
                             ?>
                             <tr>
@@ -91,6 +109,49 @@ try {
             </div>
         </div>
         <?php
+        if ($total > $maximo) {
+            ?>
+            <div class="row">
+                <div class="col ml-auto" ></div>
+                <div class="col">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" href="<?php echo $_SERVER['PHP_SELF'] . "?p=" . $pesq . "&pagina=1" ?>">
+                                    Início
+                                </a>
+                            </li>
+                            <?php
+                            for ($i = $pagina - $maxlinks; $i <= $pagina - 1; $i++) {
+                                if ($i >= 1) {
+                                    ?>
+                                    <li class="page-item"><a class="page-link" href="<?php echo "?pagina=" . $i . "&p=" . $pesq ?>"><?php echo $i; ?></a></li>
+                                    <?php
+                                }
+                            }
+                            ?>
+                                    <li class="page-item active"><a class="page-link"><?php echo $pagina; ?><span class="sr-only">(current)</span></a></li>
+                            <?php
+                            for ($i = $pagina + 1; $i <= $total_paginas + $maxlinks; $i++) {
+                                if ($i <= $total_paginas) {
+                                    ?>
+                                    <li class="page-item"><a class="page-link" href="<?php echo "?pagina=" . $i . "&p=" . $pesq ?>"><?php echo $i; ?></a></li>
+                                    <?php
+                                }
+                            }
+                            ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?php echo "?p=" . $pesq . "&pagina=" . $total_paginas; ?>">
+                                    Fim
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col mr-auto" ></div>
+            </div>
+            <?php
+        }
     }
     require_once 'rodape.php';
 } catch (Exception $e) {

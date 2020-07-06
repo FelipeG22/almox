@@ -17,15 +17,17 @@ try {
 
         $deubomalt = DBUpdate('cliente', $altdados, "WHERE id_cliente = '{$a}'");
 
-        if ($deubomalt) {
-            header("Location:list_cliente.php");
+        if ($deubomalt){
+            
+            echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
+            
         } else {
             echo "<script>alert('Erro ao alterar os dados!');</script>";
         }
     }
 
     if (!($_GET['c'])) {
-        header("Location:list_cliente.php");
+        echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
     } else {
         $a = $_GET['c'];
         $alt_cliente = DBRead('cliente', " WHERE id_cliente = '{$a}'");
@@ -46,7 +48,7 @@ try {
                 <form style="padding: 2%;" class="col-10 border border-secondary" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" autocomplete="on">
                     <div class="form-row">
                         <div class="form-group col-md-7">
-                            <input class="form-control" type="hidden" value="<?php echo $altc['id_cliente'] ?>" name="nome_cliente">
+                            <input class="form-control" type="hidden" value="<?php echo $altc['id_cliente'] ?>" name="id_cliente">
                             <label for="nome">Cliente</label>
                             <input class="form-control" type="text" id="nome" value="<?php echo $altc['nome_cliente'] ?>" name="nome_cliente" maxlength="100" required autofocus placeholder="Cliente">
                         </div>

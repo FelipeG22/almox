@@ -19,19 +19,19 @@ try {
         $deubomalt = DBUpdate('fornecedor', $altdados, "WHERE id_fornecedor = '{$a}'");
 
         if ($deubomalt) {
-            header("Location:list_fornecedor.php");
+            echo "<script language='JavaScript'>location.href='list_fornecedor.php'</script>";
         } else {
             echo "<script>alert('Erro ao alterar os dados!');</script>";
         }
     }
 
     if (!($_GET['f'])) {
-        header("Location:list_fornecedor.php");
+        echo "<script language='JavaScript'>location.href='list_fornecedor.php'</script>";
     } else {
         $a = $_GET['f'];
         $alt_fornecedor = DBRead('fornecedor', " WHERE id_fornecedor = '{$a}'");
     }
-    
+
     require_once 'header.php';
     if ($alt_fornecedor != FALSE) {
         foreach ($alt_fornecedor as $altf) {
@@ -70,8 +70,8 @@ try {
                         </div>
                         <div class="form-group col-md-6">
                             <label for="CNPJ">CNPJ</label>
-                            <input class="form-control" type="text" id="CNPJ" maxlength="20" value="<?php echo $altf["cnpj_fornecedor"]; ?>" placeholder="CNPJ" name="cnpj_fornecedor" required pattern="[0-9]{3}.[0-9]{3}.[0-9]{2}/[0-9]{3}-[0-9]{2}">
-                            <small>Formato: 111.111.11/111-11</small>
+                            <input class="form-control" type="text" id="CNPJ" maxlength="20" value="<?php echo $altf["cnpj_fornecedor"]; ?>" placeholder="CNPJ" name="cnpj_fornecedor" required pattern="[0-9]{3}.[0-9]{3}.[0-9]{2}/[0-9]{4}-[0-9]{2}">
+                            <small>Formato: 111.111.11/1111-11</small>
                         </div>
                     </div>
                     <div class="form-row">
