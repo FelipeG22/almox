@@ -41,7 +41,7 @@ try {
                     if (isset($_GET['p'])) {
                         $pagina = (isset($_GET['pagina'])) ? (int) $_GET['pagina'] : 1;
                         $maxlinks = 4;
-                        $maximo = 2;
+                        $maximo = 10;
                         $inicio = (($maximo * $pagina) - $maximo);
 
                         //a pesquisa em si
