@@ -170,8 +170,8 @@ try {
                                         <input class="form-control" type="date" id="dtexp" name="data" required>
                                     </div>
                                     <div class="form-group col-md-8">
-                                        <label for="Transportadora">Transportadora CNPJ</label>
-                                        <input class="form-control" type="text" id="Transportadora" name="transportadora">
+                                        <label for="Transportadora">Transportadora</label>
+                                        <input class="form-control" type="text" id="Transportadora" name="transportadora" maxlength="100">
                                     </div>
                                 </div>
                                 <div class="form-row">

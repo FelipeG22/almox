@@ -18,11 +18,11 @@ try {
         $deubomalt = DBUpdate('cliente', $altdados, "WHERE id_cliente = '{$a}'");
 
         if ($deubomalt){
-            
+            echo "<script language='JavaScript'>alert('Atualização dos dados do cliente com sucesso!');</script>";
             echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
             
         } else {
-            echo "<script>alert('Erro ao alterar os dados!');</script>";
+            echo "<script language='JavaScript'>alert('Erro ao alterar os dados!');</script>";
         }
     }
 

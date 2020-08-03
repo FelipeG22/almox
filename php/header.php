@@ -7,40 +7,51 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav">                
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Cadastrar
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="insert_cliente.php">Cliente</a>
-                        <a class="dropdown-item" href="insert_fornecedor.php">Fornecedor</a>
-                        <a class="dropdown-item" href="insert_produto.php">Produto</a>
-                    </div>
-                </li>
-            </ul>
+            <?php
+            if ($_SESSION['nivel'] != 3) {
+                ?>
+                <ul class="navbar-nav">                
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cadastrar
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="insert_cliente.php">Cliente</a>
+                            <a class="dropdown-item" href="insert_fornecedor.php">Fornecedor</a>
+                            <a class="dropdown-item" href="insert_produto.php">Produto</a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Relatório
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="list_cliente.php">Cliente</a>
+                            <a class="dropdown-item" href="list_fornecedor.php">Fornecedor</a>
+                            <a class="dropdown-item" href="list_produto.php">Produto</a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Rastreamento
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="entrada_produto.php">Recebimento</a>
+                            <a class="dropdown-item" href="saida_produto.php">Expedir</a>
+                            <a class="dropdown-item" href="rastreamento.php">Pesquisar</a>
+                        </div>
+                    </li>
+                </ul>
+            <?php } ?>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Relatório
+                    <a class="nav-link" href="estoque.php" id="navbarDropdown">
+                        Estoque
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="list_cliente.php">Cliente</a>
-                        <a class="dropdown-item" href="list_fornecedor.php">Fornecedor</a>
-                        <a class="dropdown-item" href="list_produto.php">Produto</a>
-                    </div>
-                </li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Rastreamento
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="entrada_produto.php">Recebimento</a>
-                        <a class="dropdown-item" href="saida_produto.php">Expedir</a>
-                        <a class="dropdown-item" href="rastreamento.php">Pesquisar</a>
-                    </div>
                 </li>
             </ul>
         </div>

@@ -14,9 +14,10 @@ if (!($_GET['c'])) {
     $a = $_GET['c'];
     $del_admin = DBDelete("cliente", "WHERE id_cliente = '{$a}'");
     if ($del_admin) {
+        echo "<script language='JavaScript'>alert('Exclusão do cliente com sucesso!');</script>";
         echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
     } else {
-        echo "<script>alert('Erro ao deletar o cliente!');</script>";
+        echo "<script language='JavaScript'>alert('Erro ao deletar o cliente!');</script>";
         echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
     }
 }

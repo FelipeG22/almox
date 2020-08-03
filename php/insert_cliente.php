@@ -15,6 +15,7 @@ try {
     <div class="row">
         <div class="col-1"></div>
         <form style="padding: 2%;" class="col-10 border border-secondary" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" autocomplete="on">
+
             <div class="form-row">
                 <div class="form-group col-md-7">
                     <label for="nome">Cliente</label>
@@ -28,13 +29,13 @@ try {
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="Telefone">Telefone</label>
-                    <input class="form-control" type="tel" id="Telefone" name="telefone_cliente" maxlength="11" placeholder="Telefone" pattern="[0-9]{6}-[0-9]{4}">
-                    <small>Formato: 212222-2222</small>
+                    <input class="form-control" type="tel" id="Telefone" name="telefone_cliente" maxlength="14" placeholder="Telefone">
+                    <small>Formato: (21) 2222-2222</small>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="Celular">Celular</label>
-                    <input class="form-control" type="tel" id="Celular" maxlength="12" placeholder="Celular" name="celular_cliente" pattern="[0-9]{7}-[0-9]{4}">
-                    <small>Formato: 2199999-9999</small>
+                    <input class="form-control" type="tel" id="Celular" maxlength="15" placeholder="Celular" name="celular_cliente">
+                    <small>Formato: (21) 99999-9999</small>
                 </div>
             </div>
             <div class="form-row">

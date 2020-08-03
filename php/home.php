@@ -1,10 +1,10 @@
 <?php
-include 'head.php';
-require '..\conexao\config.php';
-require '..\conexao\conexao.php';
-require '..\conexao\database.php';
+include_once 'head.php';
+require_once '..\conexao\config.php';
+require_once '..\conexao\conexao.php';
+require_once '..\conexao\database.php';
 
-include 'header.php';
+include_once 'header.php';
 
 ?>
 
@@ -15,4 +15,4 @@ include 'header.php';
 
 </div>
 <?php
-include 'rodape.php';
+include_once 'rodape.php';

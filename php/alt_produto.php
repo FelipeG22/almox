@@ -19,9 +19,10 @@ try {
         $deubomalt = DBUpdate('produto', $altdados, "WHERE id_produto = '{$a}'");
 
         if ($deubomalt) {
+            echo "<script language='JavaScript'>alert('Atualização dos dados do produto com sucesso!');</script>";
             echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
         } else {
-            echo "<script>alert('Erro ao alterar os dados!');</script>";
+            echo "<script language='JavaScript'>alert('Erro ao alterar os dados!');</script>";
         }
     }
 

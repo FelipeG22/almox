@@ -14,9 +14,10 @@ if (!($_GET['f'])) {
     $a = $_GET['f'];
     $del_admin = DBDelete("fornecedor", "WHERE id_fornecedor = '{$a}'");
     if ($del_admin) {
+        echo "<script language='JavaScript'>alert('Exclusão do fornecedor com sucesso!');</script>";
         echo "<script language='JavaScript'>location.href='list_fornecedor.php'</script>";
     } else {
-        echo "<script>alert('Erro ao deletar o fornecedor!');</script>";
+        echo "<script language='JavaScript'>alert('Erro ao excluir o fornecedor!');</script>";
         echo "<script language='JavaScript'>location.href='list_fornecedor.php'</script>";
     }
 }

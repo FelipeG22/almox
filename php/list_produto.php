@@ -35,6 +35,7 @@ try {
                         <th scope="col">Fabricação</th>
                         <th scope="col">Validade</th>
                         <th scope="col" colspan="3">Rastreamento</th>
+                        <th scope="col">Em estoque</th>
                         <th scope="col" colspan="2">Ação</th>
                     </tr>
                 </thead>
@@ -63,13 +64,13 @@ try {
                                 . " OR fabricacao_produto LIKE '%{$pesq}%'"
                                 . " OR `validade_produto`  LIKE '%{$pesq}%'"
                                 . " OR `apresentacao_produto`  LIKE '%{$pesq}%'"
-                                . " ORDER BY fabricacao_produto, "
-                                . "validade_produto, "
-                                . "`nome_produto`, "
-                                . "lote_produto LIMIT {$inicio}, {$maximo}", "id_produto as id,"
+                                . " ORDER BY validade_produto, "
+                                . "lote_produto, "
+                                . "nome_produto LIMIT {$inicio}, {$maximo}", "id_produto as id,"
                                 . "nome_produto as nome,"
                                 . "lote_produto as lote,"
                                 . "apresentacao_produto as ap,"
+                                . "estoque_produto as est,"
                                 . "DATE_FORMAT(fabricacao_produto, '%d/%m/%Y') as dtf,"
                                 . "DATE_FORMAT(validade_produto, '%d/%m/%Y') as dtv");
 
@@ -97,7 +98,12 @@ try {
                                     <td title="Entrada"><a href="entrada_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja dar entrada deste Produto no estoque?')"><img src="../_assets/_img/application_form_add.png" /></a></td>
                                     <td title="Saída"><a href="saida_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja dar saída deste Produto no estoque?')"><img src="../_assets/_img/application_form_delete.png" /></a></td>
                                     <td title="Gerar"><a href="rastreamento.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja fazer rastreamento do Produto?')"><img src="../_assets/_img/application_form.png" /></a></td>
-                                    <td title="Alterar"><a href="alt_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
+                                    <?php if ($a['est'] == 0) { ?>
+                                    <td title="Incluir no estoque"><a href="?i=<?php echo $a['id'] . "&v=1" ?>" onclick="return confirm('Deseja incluir este produto no estoque?')"><img src="../_assets/_img/package_go.png" /></a></td>
+                                    <?php } else { ?>
+                                        <td title="Em estoque"><img src="../_assets/_img/check.ico" /></td>
+                                    <?php } ?>
+                                        <td title="Alterar"><a href="alt_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
                                     <td title="Excluir"><a href="del_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                 </tr>
                                 <?php
@@ -130,7 +136,7 @@ try {
                                 }
                             }
                             ?>
-                                    <li class="page-item active"><a class="page-link"><?php echo $pagina; ?><span class="sr-only">(current)</span></a></li>
+                            <li class="page-item active"><a class="page-link"><?php echo $pagina; ?><span class="sr-only">(current)</span></a></li>
                             <?php
                             for ($i = $pagina + 1; $i <= $total_paginas + $maxlinks; $i++) {
                                 if ($i <= $total_paginas) {

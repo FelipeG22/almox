@@ -19,9 +19,10 @@ try {
         $deubomalt = DBUpdate('fornecedor', $altdados, "WHERE id_fornecedor = '{$a}'");
 
         if ($deubomalt) {
+            echo "<script language='JavaScript'>alert('Atualização dos dados do fornecedor com sucesso!');</script>";
             echo "<script language='JavaScript'>location.href='list_fornecedor.php'</script>";
         } else {
-            echo "<script>alert('Erro ao alterar os dados!');</script>";
+            echo "<script language='JavaScript'>alert('Erro ao alterar os dados!');</script>";
         }
     }
 

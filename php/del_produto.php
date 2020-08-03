@@ -11,12 +11,13 @@ if (!($_SESSION['apelido']) && !($_SESSION['id'])) {
 if (!($_GET['p'])) {
     echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
 } else {
-    $a = $_GET['p'];
-    $del_admin = DBDelete("produto", "WHERE id_produto = '{$a}'");
-    if ($del_admin) {
+    $a = addslashes($_GET['p']);
+    $del = DBDelete("produto", "WHERE id_produto = ". $a);
+    if ($del) {
+        echo "<script language='JavaScript'>alert('Exclusão do produto com sucesso!');</script>";
         echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
     } else {
-        echo "<script>alert('Erro ao deletar produto!');</script>";
+        echo "<script language='JavaScript'>alert('Erro ao deletar produto!');</script>";
         echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
     }
 }

@@ -7,6 +7,7 @@ try {
     require_once '..\conexao\database.php';
     require_once 'header.php'
     ?>
+    
     <div class="row">
         <div class="col-12">
             <h3 class="h3 text-center bg-dark text-light">Cadastro Fornecedor</h3>
@@ -24,13 +25,13 @@ try {
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="Telefone">Telefone</label>
-                    <input class="form-control" type="tel" id="Telefone" name="telefone_fornecedor" maxlength="12" placeholder="telefone" pattern="[0-9]{6}-[0-9]{4}">
-                    <small>Formato: 212222-2222</small>
+                    <input class="form-control" type="tel" id="Telefone" name="telefone_fornecedor" maxlength="14" placeholder="telefone">
+                    <small>Formato: (21) 2222-2222</small>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="Celular">Celular</label>
-                    <input class="form-control" type="tel" id="Celular" name="celular_fornecedor" maxlength="12" placeholder="celular" pattern="[0-9]{7}-[0-9]{4}" >
-                    <small>Formato: 2199999-9999</small>
+                    <input class="form-control" type="tel" id="Celular" name="celular_fornecedor" maxlength="15" placeholder="celular">
+                    <small>Formato: (21) 99999-9999</small>
                 </div>
             </div>
             <div class="form-row">
@@ -40,7 +41,7 @@ try {
                 </div>
                 <div class="form-group col-md-6">
                     <label for="CNPJ">CNPJ</label>
-                    <input class="form-control" type="text" id="CNPJ" maxlength="20" placeholder="CNPJ" name="cnpj_fornecedor" required pattern="[0-9]{3}.[0-9]{3}.[0-9]{2}/[0-9]{4}-[0-9]{2}">
+                    <input class="form-control data-mask " type="text" id="CNPJ" maxlength="18" placeholder="CNPJ" name="cnpj_fornecedor" required>
                     <small>Formato: 111.111.11/1111-11</small>
                 </div>
             </div>
