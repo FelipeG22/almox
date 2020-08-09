@@ -69,11 +69,7 @@ if (isset($_POST['btcadcliente'])) {
 if (isset($_POST['btcadproduto'])) {
 
     $dados = array(
-        'nome_produto' => addslashes($_POST['nome_produto']),
-        'lote_produto' => addslashes($_POST['lote_produto']),
-        'apresentacao_produto' => addslashes($_POST['apresentacao_produto']),
-        'fabricacao_produto' => addslashes($_POST['fabricacao_produto']),
-        'validade_produto' => addslashes($_POST['validade_produto'])
+        'nome_produto' => addslashes(strtoupper(trim($_POST['produto'])))
     );
 
     $deubomcadprodut = DBCreate('produto', $dados);
@@ -85,7 +81,6 @@ if (isset($_POST['btcadproduto'])) {
         echo "<script language='JavaScript'>alert('Erro ao cadastrar!');</script>";
     }
 }
-
 // Cadastro fornecedor
 if (isset($_POST['btcadfornecedor'])) {
 
@@ -143,7 +138,7 @@ if (isset($_POST['btlogar'])) {
 if (isset($_GET['i']) AND isset($_GET['v'])) {
 
     $id = addslashes($_GET['i']);
-    
+
     $valor = addslashes($_GET['v']);
 
     $altdados = array(
@@ -153,12 +148,23 @@ if (isset($_GET['i']) AND isset($_GET['v'])) {
 
     if ($deubomalt) {
         if ($valor == 0) {
+            echo "<script language='JavaScript'>alert('Produto retirado do Estoque!');</script>";
             echo "<script language='JavaScript'>location.href='estoque.php'</script>";
         } else if ($valor == 1) {
+            echo "<script language='JavaScript'>alert('Produto inserido no Estoque!');</script>";
             echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
         }
     } else {
         echo "<script language='JavaScript'>alert('Erro ao executar a ação!');</script>";
+    }
+}
+
+// Verifica acesso
+// Pede até o maior nível
+function Acesso($n){
+    if($_SESSION['nivel'] > $n){
+        echo "<script language='JavaScript'>alert('Acesso Negado!');</script>";
+        echo "<script language='JavaScript'>location.href='sair.php'</script>";
     }
 }
 

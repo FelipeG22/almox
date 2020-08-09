@@ -7,6 +7,8 @@ try {
     require_once '..\conexao\database.php';
     require_once 'header.php';
 
+    Acesso(2);
+    
     if (isset($_POST['btaltsaiproduto'])) {
         $a = $_POST['id_saida_produto'];
         $altdados = array(

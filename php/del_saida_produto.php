@@ -8,6 +8,9 @@ require '..\conexao\database.php';
 if (!($_SESSION['apelido']) && !($_SESSION['id'])) {
     echo "<script language='JavaScript'>location.href='sair.php'</script>";
 }
+
+Acesso(1);
+
 if (!($_GET['e'])) {
     echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
 } else {

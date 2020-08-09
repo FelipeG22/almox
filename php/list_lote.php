@@ -5,6 +5,8 @@ try {
     require_once '..\conexao\conexao.php';
     require_once '..\conexao\database.php';
     require_once 'header.php';
+
+    Acesso(2);
     ?>
 
     <div class="row">
@@ -31,7 +33,9 @@ try {
                         <th scope="col">Validade</th>
                         <th scope="col" colspan="3">Rastreamento</th>
                         <th scope="col">Em estoque</th>
-                        <th scope="col" colspan="2">Ação</th>
+                        <?php if ($_SESSION['nivel'] == 1) { ?>
+                            <th scope="col" colspan="2">Ação</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,8 +90,10 @@ try {
                                     <td title="Saída"><a href="saida_produto.php?p=<?php echo $a['id_lote'] ?>" onclick="return confirm('Deseja dar saída deste Produto no estoque?')"><img src="../_assets/_img/application_form_delete.png" /></a></td>
                                     <td title="Gerar"><a href="rastreamento.php?p=<?php echo $a['id_lote'] ?>" onclick="return confirm('Deseja fazer rastreamento do Produto?')"><img src="../_assets/_img/application_form.png" /></a></td>
                                     <td><?php echo ($a['ent'] - $a['sai']) ?></td>
-                                    <td title="Alterar"><a href="alt_produto.php?p=<?php echo $a['id_lote'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
-                                    <td title="Excluir"><a href="del_produto.php?p=<?php echo $a['id_lote'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                    <?php if ($_SESSION['nivel'] == 1) { ?>
+                                        <td title="Alterar"><a href="alt_produto.php?p=<?php echo $a['id_lote'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
+                                        <td title="Excluir"><a href="del_produto.php?p=<?php echo $a['id_lote'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                    <?php } ?>
                                 </tr>
                                 <?php
                             }

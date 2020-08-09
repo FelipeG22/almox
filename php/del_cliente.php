@@ -5,9 +5,13 @@ require '..\conexao\config.php';
 require '..\conexao\conexao.php';
 require '..\conexao\database.php';
 
+
 if (!($_SESSION['apelido']) && !($_SESSION['id'])) {
     echo "<script language='JavaScript'>location.href='sair.php'</script>";
 }
+
+Acesso(1);
+
 if (!($_GET['c'])) {
     echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
 } else {

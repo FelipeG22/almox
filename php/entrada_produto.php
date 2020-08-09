@@ -7,6 +7,7 @@ try {
     require_once '..\conexao\database.php';
     require_once 'header.php';
 
+    Acesso(2);
 
 //Se não tiver o get do id do produto, nem tenta
     if (!isset($_GET['p'])) {

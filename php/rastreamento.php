@@ -7,6 +7,8 @@ try {
     require_once '..\conexao\database.php';
     require_once 'header.php';
 
+    Acesso(2);
+
 
 //Se não tiver o get do id do produto, nem tenta
     if (!isset($_GET['p'])) {
@@ -115,7 +117,11 @@ try {
                                     <th scope="col">Quantidade</th>
                                     <th scope="col">Fornecedor / CNPJ</th>
                                     <th scope="col">Transportadora</th>
-                                    <th scope="col" colspan="2" class="d-print-none">Ação</th>
+                                    <?php if ($_SESSION['nivel'] == 1) { ?>
+                                        <th scope="col" colspan="2" class="d-print-none">Ação</th>
+                                    <?php } else { ?>
+                                        <th scope="col" class="d-print-none">Ação</th>
+                                    <?php } ?>
                                 </tr>
                             </thead>
                             <?php
@@ -137,7 +143,9 @@ try {
                                         <td><?php echo $e['fornecedor'] . "<br>" . $e['cnpj_fornecedor'] ?></td>
                                         <td><?php echo $e['transp'] ?></td>
                                         <td class="d-print-none" title="Alterar"><a href="alt_entrada_produto.php?p=<?php echo $e['id_entrada'] ?>" onclick="return confirm('Deseja alterar Informações deste Recebimento?')"><img src="../_assets/_img/pencil.png" /></a></td>
-                                        <td class="d-print-none" title="Excluir"><a href="del_entrada_produto.php?e=<?php echo $e['id_entrada'] ?>" onclick="return confirm('Deseja excluir este Lançamento?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                        <?php if ($_SESSION['nivel'] == 1) { ?>
+                                            <td class="d-print-none" title="Excluir"><a href="del_entrada_produto.php?e=<?php echo $e['id_entrada'] ?>" onclick="return confirm('Deseja excluir este Lançamento?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                        <?php } ?>
                                     </tr>
                                     <?php
                                 }
@@ -162,7 +170,11 @@ try {
                                     <th scope="col">Quantidade</th>
                                     <th scope="col">Cliente</th>
                                     <th scope="col">Transportadora</th>
-                                    <th scope="col" colspan="2" class="d-print-none">Ação</th>
+                                    <?php if ($_SESSION['nivel'] == 1) { ?>
+                                        <th scope="col" colspan="2" class="d-print-none">Ação</th>
+                                    <?php } else { ?>
+                                        <th scope="col" class="d-print-none">Ação</th>
+                                    <?php } ?>
                                 </tr>
                             </thead>
                             <?php
@@ -184,7 +196,9 @@ try {
                                         <td><?php echo $s['cliente'] ?></td>
                                         <td><?php echo $s['transp_sai'] ?></td>
                                         <td class="d-print-none" title="Alterar"><a href="alt_saida_produto.php?p=//<?php echo $s['id_saida'] ?>" onclick="return confirm('Deseja alterar Informações desta saída?')"><img src="../_assets/_img/pencil.png" /></a></td>
-                                        <td class="d-print-none" title="Excluir"><a href="del_saida_produto.php?e=//<?php echo $s['id_saida'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                        <?php if ($_SESSION['nivel'] == 1) { ?>
+                                            <td class="d-print-none" title="Excluir"><a href="del_saida_produto.php?e=//<?php echo $s['id_saida'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                        <?php } ?>
                                     </tr>
                                     <?php
                                 }

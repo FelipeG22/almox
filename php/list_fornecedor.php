@@ -6,6 +6,7 @@ try {
     require_once '..\conexao\database.php';
     require_once 'header.php';
 
+    Acesso(2);
     
     ?>
     <div class="row">
@@ -33,7 +34,6 @@ try {
                         <th scope="col">Email</th>
                         <th scope="col">Telefone</th>
                         <th scope="col">Celular</th>
-                        <th scope="col">Endereço</th>
                         <th scope="col" colspan="2">Ação</th>
                     </tr>
                 </thead>
@@ -84,8 +84,7 @@ try {
                                     <td><?php echo $a['email_fornecedor'] ?></td>
                                     <td><?php echo $a['telefone_fornecedor'] ?></td>
                                     <td><?php echo $a['celular_fornecedor'] ?></td>
-                                    <td><?php echo $a['endereco_fornecedor'] ?></td>
-                                    <td title="Alterar"><a href="alt_fornecedor.php?f=<?php echo $a['id_fornecedor'] ?>" onclick="return confirm('Deseja alterar Informações deste Fornecedor?')"><img src="../_assets/_img/pencil.png" /></a></td>
+                                    <td title="Alterar"><a href="alt_fornecedor.php?f=<?php echo $a['id_fornecedor'] ?>" onclick="return confirm('Deseja alterar Informações deste Fornecedor?')"><img src="../_assets/_img/lupa.ico" /></a></td>
                                     <td title="Excluir"><a href="del_fornecedor.php?f=<?php echo $a['id_fornecedor'] ?>" onclick="return confirm('Deseja excluir Fornecedor?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                 </tr>
                                 <?php

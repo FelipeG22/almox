@@ -6,7 +6,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <div class="collapse navbar-collapse col-auto" id="navbarTogglerDemo02">
             <?php
             if ($_SESSION['nivel'] != 3) {
                 ?>
@@ -55,7 +55,7 @@
                 </li>
             </ul>
         </div>
-        <div>
+        <div class="col-auto">
             <h5 class="navbar-text"><?php
                 if ($_SESSION['apelido'] != null) {
                     $no = $_SESSION['apelido'];

@@ -22,7 +22,15 @@ SELECT p.id_produto, p.nome_produto, lp.id_lote_produto, lp.lote_produto, ep.id_
 
 SELECT p.id_produto, p.nome_produto, lp.id_lote_produto, lp.lote_produto, sp.id_saida_produto, SUM(sp.quantidade_saida_produto) as total_saida FROM cw_produto p INNER JOIN cw_lote_produto lp USING(id_produto) LEFT JOIN cw_saida_produto sp USING(id_lote_produto) GROUP BY lote_produto ORDER BY p.id_produto
 
-SELECT p.id_produto, p.nome_produto, p.em_estoque, lp.id_lote_produto, lp.lote_produto, lp.fabricacao_produto, lp.validade_produto, lp.apresentacao_produto, tep.total_entrada, tsp.total_saida FROM cw_produto p INNER JOIN cw_lote_produto lp USING(id_produto) LEFT JOIN total_entrada_lote_produto tep USING(id_lote_produto) LEFT JOIN total_saida_lote_produto tsp USING(id_lote_produto) GROUP BY lp.lote_produto ORDER BY p.id_produto
+ESTOQUE_FINAL
+SELECT p.id_produto, p.nome_produto as produto, p.em_estoque, 
+lp.id_lote_produto AS id_lote, lp.lote_produto as lote, DATE_FORMAT(lp.fabricacao_produto,'%d/%m/%Y') as dtf, DATE_FORMAT(lp.validade_produto,'%d/%m/%Y') as dtv, lp.apresentacao_produto as ap, 
+SUM(tep.total_entrada) as total_entrada, SUM(tsp.total_saida) as total_saida 
+FROM cw_produto p 
+LEFT JOIN cw_lote_produto lp USING(id_produto) 
+LEFT JOIN total_entrada_lote_produto tep USING(id_lote_produto) 
+LEFT JOIN total_saida_lote_produto tsp USING(id_lote_produto) 
+GROUP BY p.id_produto ORDER BY p.nome_produto
 
 RASTREAMENTO_ENTRADA
 SELECT p.id_produto, p.nome_produto as produto, 

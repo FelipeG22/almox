@@ -5,7 +5,9 @@ try {
     require_once '..\conexao\config.php';
     require_once '..\conexao\conexao.php';
     require_once '..\conexao\database.php';
-    require_once 'header.php'
+    require_once 'header.php';
+    
+    Acesso(2);
     ?>
     <div class="row">
         <div class="col-12">

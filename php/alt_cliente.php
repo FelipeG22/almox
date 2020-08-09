@@ -5,6 +5,8 @@ try {
     require_once '..\conexao\conexao.php';
     require_once '..\conexao\database.php';
 
+    Acesso(2);
+
     if (isset($_POST['btaltcliente'])) {
         $a = $_POST['id_cliente'];
         $altdados = array(
@@ -60,13 +62,13 @@ try {
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="Telefone">Telefone</label>
-                            <input class="form-control" type="tel" id="Telefone" value="<?php echo $altc['telefone_cliente'] ?>" name="telefone_cliente" maxlength="11" placeholder="Telefone" pattern="[0-9]{6}-[0-9]{4}">
-                            <small>Formato: 212222-2222</small>
+                            <input class="form-control" type="tel" id="Telefone" value="<?php echo $altc['telefone_cliente'] ?>" name="telefone_cliente" maxlength="11" placeholder="Telefone">
+                            <small>Formato: (21) 2222-2222</small>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Celular">Celular</label>
-                            <input class="form-control" type="tel" id="Celular" maxlength="12" placeholder="Celular" value="<?php echo $altc['celular_cliente'] ?>" name="celular_cliente" pattern="[0-9]{7}-[0-9]{4}">
-                            <small>Formato: 2199999-9999</small>
+                            <input class="form-control" type="tel" id="Celular" maxlength="12" placeholder="Celular" value="<?php echo $altc['celular_cliente'] ?>" name="celular_cliente" >
+                            <small>Formato: (21) 99999-9999</small>
                         </div>
                     </div>
                     <div class="form-row">

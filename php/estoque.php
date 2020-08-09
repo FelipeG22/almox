@@ -5,6 +5,8 @@ try {
     require_once '..\conexao\conexao.php';
     require_once '..\conexao\database.php';
     require_once 'header.php';
+    
+    Acesso(3);
     ?>
 
     <div class="row">
@@ -26,7 +28,7 @@ try {
                         <th scope="row">#</th>
                         <th scope="col">Produto</th>
                         <th scope="col">Em estoque</th>
-                        <?php if ($_SESSION['nivel'] == 1) { ?>
+                        <?php if ($_SESSION['nivel'] < 3) { ?>
                             <th scope="col">Ação</th>
                         <?php } ?>
                     </tr>
@@ -71,7 +73,7 @@ try {
                                 <th scope="row"><?php echo $q++; ?></th>
                                 <td><?php echo $a['produto'] ?></td>
                                 <td><?php echo ($a['total_entrada'] - $a['total_saida']) ?></td>
-                                <?php if ($_SESSION['nivel'] == 1) { ?>
+                                <?php if ($_SESSION['nivel'] < 3) { ?>
                                     <td title="Retirar do estoque"><a href="?i=<?php echo $a['id_produto'] . "&v=0" ?>" onclick="return confirm('Deseja retirar o produto do estoque?')"><img src="../_assets/_img/box.png" /></a></td>
                                 <?php } ?>
                             </tr>

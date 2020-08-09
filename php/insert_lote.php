@@ -20,7 +20,27 @@ try {
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="nome">Produto</label>
-                    <input class="form-control" type="text" id="nome" name="produto" maxlength="100" required autofocus placeholder="Produto">
+                    <input class="form-control" type="text" id="nome" name="nome_produto" maxlength="100" required autofocus placeholder="Produto">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="Lote">Lote</label>
+                    <input class="form-control" type="text" id="Lote" name="lote_produto" maxlength="30" placeholder="Lote" required>
+                </div>
+                <div class="form-group col-md-8">
+                    <label for="apres">Apresentação</label>
+                    <input class="form-control" type="text" id="apres" maxlength="100" placeholder="Apresentação" name="apresentacao_produto" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="fabricacao">Fabricação</label>
+                    <input class="form-control" type="date" id="fabricacao" name="fabricacao_produto" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="validade">Validade</label>
+                    <input class="form-control" type="date" id="validade" name="validade_produto" required>
                 </div>
             </div>
             <button type="submit" name="btcadproduto" class="btn btn-primary" onclick="return confirm('Os dados estão corretos?')">Cadastrar</button>
