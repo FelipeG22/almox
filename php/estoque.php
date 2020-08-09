@@ -12,7 +12,7 @@ try {
             <h3 class="h3 text-center bg-dark text-light">Estoque</h3>
         </div>
     </div>
-    <?php if ($_SESSION['nivel'] == 1) { ?>
+    <?php if ($_SESSION['nivel'] < 3) { ?>
         <div class="row">
             <div class="col-12"><a href="list_produto.php"><img src="../_assets/_img/table_go.png" /> Lista Produtos</a></div>
         </div>
@@ -25,10 +25,6 @@ try {
                     <tr>
                         <th scope="row">#</th>
                         <th scope="col">Produto</th>
-                        <th scope="col">Lote</th>
-                        <th scope="col">Apresentação</th>
-                        <th scope="col">Fabricação</th>
-                        <th scope="col">Validade</th>
                         <th scope="col">Em estoque</th>
                         <?php if ($_SESSION['nivel'] == 1) { ?>
                             <th scope="col">Ação</th>
@@ -43,21 +39,19 @@ try {
                     $inicio = (($maximo * $pagina) - $maximo);
 
                     //pra saber quantidade total de registros
-                    $total = Paginacao("SELECT id_produto FROM cw_produto WHERE estoque_produto = '1'");
+                    $total = Paginacao("SELECT id_produto FROM estoque_final WHERE em_estoque = '1'");
 
                     //pega a quantidade de registros com LIMIT
-                    $produto = DBRead('produto p', " LEFT JOIN cw_saida_produto s on p.id_produto = s.id_produto "
-                            . "LEFT JOIN cw_entrada_produto e on p.id_produto = e.id_produto "
-                            . "WHERE p.estoque_produto = '1'"
-                            . "GROUP BY p.id_produto ORDER BY p.validade_produto, p.lote_produto, p.nome_produto LIMIT {$inicio}, {$maximo}", "p.id_produto as id,"
-                            . "p.nome_produto as nome,"
-                            . "p.id_produto as id,"
-                            . "p.lote_produto as lote,"
-                            . "p.apresentacao_produto as ap,"
-                            . "DATE_FORMAT(p.fabricacao_produto, '%d/%m/%Y') as dtf,"
-                            . "DATE_FORMAT(p.validade_produto, '%d/%m/%Y') as dtv,"
-                            . "SUM(e.quantidade_entrada_produto) as ent,"
-                            . "SUM(s.quantidade_saida_produto) as sai");
+                    //nome do produto = nome,
+                    //id do produto = id,
+                    //lote do produto = lote,
+                    //apresentacao_produto = ap,
+                    //fabricacao_produto = dtf,
+                    //validade_produto = dtv,
+                    //soma das entradas do produto = ent,
+                    //soma das saidas do produto = sai");
+
+                    $produto = DBView("estoque_final", " WHERE em_estoque = '1' LIMIT {$inicio}, {$maximo}");
 
                     //quantidade de nº de paginas na paginação 
                     $total_paginas = ceil($total / $maximo);
@@ -75,14 +69,10 @@ try {
                             ?>
                             <tr>
                                 <th scope="row"><?php echo $q++; ?></th>
-                                <td><?php echo $a['nome'] ?></td>
-                                <td><?php echo $a['lote'] ?></td>
-                                <td><?php echo $a['ap'] ?></td>
-                                <td><?php echo $a['dtf'] ?></td>
-                                <td><?php echo $a['dtv'] ?></td>
-                                <td><?php echo ($a['ent'] - $a['sai']) ?></td>
+                                <td><?php echo $a['produto'] ?></td>
+                                <td><?php echo ($a['total_entrada'] - $a['total_saida']) ?></td>
                                 <?php if ($_SESSION['nivel'] == 1) { ?>
-                                <td title="Retirar do estoque"><a href="<?php echo $_SERVER['PHP_SELF'] . "?i=" . $a['id'] . "&v=0"; ?>" onclick="return confirm('Deseja retirar o produto do estoque?')"><img src="../_assets/_img/box.png" /></a></td>
+                                    <td title="Retirar do estoque"><a href="?i=<?php echo $a['id_produto'] . "&v=0" ?>" onclick="return confirm('Deseja retirar o produto do estoque?')"><img src="../_assets/_img/box.png" /></a></td>
                                 <?php } ?>
                             </tr>
                             <?php

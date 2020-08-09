@@ -13,3 +13,36 @@ SELECT p.nome_produto, p.lote_produto, SUM(e.quantidade_entrada_produto) as ent,
 SELECT p.nome_produto as nomep, p.lote_produto as lp, p.apresentacao_produto as ap, DATE_FORMAT(ep.data_entrada_produto, '%d/%m/%Y') as dtexp, ep.id_entrada_produto as ident, ep.nota_fiscal_entrada_produto as nota, ep.quantidade_entrada_produto as quant, ep.transporte_entrada_produto as transp, f.nome_fornecedor as nf FROM cw_entrada_produto ep INNER JOIN cw_fornecedor f ON ep.id_fornecedor = f.id_fornecedor INNER JOIN cw_produto p ON ep.id_produto = p.id_produto WHERE id_entrada_produto = 22
 
 SELECT sp.id_saida_produto as idsai, DATE_FORMAT(sp.data_saida_produto, "%d/%m/%Y") as dtsai, sp.guia_saida_produto as guia, sp.quantidade_saida_produto as quant, sp.transporte_saida_produto as transp, p.nome_produto as produto, p.lote_produto as lote, p.apresentacao_produto as apres, cl.id_cliente as idcl, cl.nome_cliente as cliente, tp.id_tipo_pedido as idtp, tp.tipo_pedido as tp FROM cw_saida_produto sp INNER JOIN cw_tipo_pedido tp ON sp.id_tipo_pedido = tp.id_tipo_pedido INNER JOIN cw_cliente cl ON sp.id_cliente = cl.id_cliente INNER JOIN cw_produto p ON sp.id_produto = p.id_produto WHERE sp.id_saida_produto = 8
+
+
+SELECT p.id_produto, p.nome_produto, lp.id_lote_produto, lp.lote_produto, lp.apresentacao_produto, ep.quantidade_entrada_produto, sp.quantidade_saida_produto FROM cw_produto p INNER JOIN cw_lote_produto lp USING(id_produto) LEFT JOIN cw_entrada_produto ep ON lp.id_lote_produto = ep.id_lote_produto LEFT JOIN cw_saida_produto sp ON lp.id_lote_produto = sp.id_lote_produto
+
+
+SELECT p.id_produto, p.nome_produto, lp.id_lote_produto, lp.lote_produto, ep.id_entrada_produto, SUM(ep.quantidade_entrada_produto) as total_entrada FROM cw_produto p INNER JOIN cw_lote_produto lp USING(id_produto) LEFT JOIN cw_entrada_produto ep USING(id_lote_produto) GROUP BY lote_produto ORDER BY p.id_produto
+
+SELECT p.id_produto, p.nome_produto, lp.id_lote_produto, lp.lote_produto, sp.id_saida_produto, SUM(sp.quantidade_saida_produto) as total_saida FROM cw_produto p INNER JOIN cw_lote_produto lp USING(id_produto) LEFT JOIN cw_saida_produto sp USING(id_lote_produto) GROUP BY lote_produto ORDER BY p.id_produto
+
+SELECT p.id_produto, p.nome_produto, p.em_estoque, lp.id_lote_produto, lp.lote_produto, lp.fabricacao_produto, lp.validade_produto, lp.apresentacao_produto, tep.total_entrada, tsp.total_saida FROM cw_produto p INNER JOIN cw_lote_produto lp USING(id_produto) LEFT JOIN total_entrada_lote_produto tep USING(id_lote_produto) LEFT JOIN total_saida_lote_produto tsp USING(id_lote_produto) GROUP BY lp.lote_produto ORDER BY p.id_produto
+
+RASTREAMENTO_ENTRADA
+SELECT p.id_produto, p.nome_produto as produto, 
+lp.id_lote_produto as id_lote, lp.lote_produto as lote, DATE_FORMAT(lp.fabricacao_produto, '%d/%m/%Y') as dtf, DATE_FORMAT(lp.validade_produto, '%d/%m/%Y') as dtv, lp.apresentacao_produto as ap,
+ep.id_entrada_produto as id_entrada, DATE_FORMAT(ep.data_entrada_produto, '%d/%m/%Y') dtent, ep.nota_fiscal_entrada_produto as nota, ep.quantidade_entrada_produto as quant_ent, ep.transporte_entrada_produto as transp,
+f.id_fornecedor, f.nome_fornecedor as fornecedor, f.cnpj_fornecedor
+FROM cw_produto p 
+INNER JOIN cw_lote_produto lp USING(id_produto) 
+INNER JOIN cw_entrada_produto ep USING(id_lote_produto) 
+INNER JOIN cw_fornecedor f USING(id_fornecedor)
+ORDER BY lp.id_lote_produto
+
+RASTREAMENTO_SAIDA
+SELECT p.id_produto, p.nome_produto as produto, 
+lp.id_lote_produto as id_lote, lp.lote_produto as lote, DATE_FORMAT(lp.fabricacao_produto, '%d/%m/%Y') as dtf, DATE_FORMAT(lp.validade_produto, '%d/%m/%Y') as dtv, lp.apresentacao_produto as ap,
+sp.id_saida_produto as id_saida, DATE_FORMAT(sp.data_saida_produto, '%d/%m/%Y') dtsai, sp.guia_saida_produto as guia, sp.quantidade_saida_produto as quant_sai, sp.transporte_saida_produto as transp_sai,
+c.id_cliente, c.nome_cliente as cliente, tp.id_tipo_pedido, tp.tipo_pedido
+FROM cw_produto p 
+INNER JOIN cw_lote_produto lp USING(id_produto) 
+INNER JOIN cw_saida_produto sp USING(id_lote_produto) 
+INNER JOIN cw_cliente c USING(id_cliente)
+INNER JOIN cw_tipo_pedido tp USING(id_tipo_pedido)
+ORDER BY lp.id_lote_produto

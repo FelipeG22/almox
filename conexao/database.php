@@ -143,18 +143,18 @@ if (isset($_POST['btlogar'])) {
 if (isset($_GET['i']) AND isset($_GET['v'])) {
 
     $id = addslashes($_GET['i']);
-    ;
+    
     $valor = addslashes($_GET['v']);
 
     $altdados = array(
-        'estoque_produto' => $valor
+        'em_estoque' => $valor
     );
     $deubomalt = DBUpdate('produto', $altdados, "WHERE id_produto = '{$id}'");
 
     if ($deubomalt) {
         if ($valor == 0) {
             echo "<script language='JavaScript'>location.href='estoque.php'</script>";
-        } else if ($valor == 1){
+        } else if ($valor == 1) {
             echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
         }
     } else {
@@ -187,6 +187,22 @@ function DBUpdate($table, array $data, $where = null, $insertId = false) {
     $where = ($where) ? " {$where}" : null;
     $query = "UPDATE {$table} SET {$fields}{$where}";
     return DBExecute($query, $insertId);
+}
+
+// Ler views
+function DBView($view, $params = null, $fields = '*') {
+    $params = ($params) ? " {$params}" : null;
+    $query = "SELECT {$fields} FROM {$view}{$params}";
+    $result = DBExecute($query);
+
+    if (!mysqli_num_rows($result)) {
+        return false;
+    } else {
+        while ($res = mysqli_fetch_assoc($result)) {
+            $data[] = $res;
+        }
+        return $data;
+    }
 }
 
 // Ler registros
