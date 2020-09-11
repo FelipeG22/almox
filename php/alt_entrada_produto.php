@@ -8,34 +8,13 @@ try {
     require_once 'header.php';
 
     Acesso(2);
-    
-    if (isset($_POST['btaltentproduto'])) {
-        $a = $_POST['id_entrada_produto'];
-        $altdados = array(
-            'id_fornecedor' => addslashes($_POST['id_fornecedor']),
-            'nota_fiscal_entrada_produto' => addslashes($_POST['guia']),
-            'data_entrada_produto' => addslashes($_POST['data']),
-            'transporte_entrada_produto' => addslashes($_POST['transportadora']),
-            'quantidade_entrada_produto' => addslashes($_POST['quantidade'])
-        );
 
-        $deubomalt = DBUpdate('entrada_produto', $altdados, "WHERE id_entrada_produto = '{$a}'");
-
-        if ($deubomalt) {
-            echo "<script language='JavaScript'>alert('Atualização de entrada com sucesso!');</script>";
-            echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
-        } else {
-            echo "<script language='JavaScript'>alert('Erro ao alterar os dados!');</script>";
-        }
-    }
-
-
-//Se não tiver o get do id do produto, nem tenta
+//Se não tiver o get do id da entrada, nem tenta
     if (!isset($_GET['p'])) {
         ?>
         <div class = "row">
             <div class = "col-12">
-                <h3 class = "h3 text-center bg-dark text-light">Recebimento de Produto</h3>
+                <h3 class = "h3 text-center bg-dark text-light">Alteração de Recebimento de Produto</h3>
             </div>
         </div>
         <div class = "row">
@@ -52,25 +31,16 @@ try {
         ?>
         <div class = "row">
             <div class = "col-12">
-                <h3 class = "h3 text-center bg-dark text-light">Recebimento de Produto</h3>
+                <h3 class = "h3 text-center bg-dark text-light">Alteração de Recebimento de Produto</h3>
             </div>
         </div>
 
         <?php
         $p = addslashes($_GET['p']);
 
-        $entrada = DBRead("entrada_produto ep", "INNER JOIN cw_fornecedor f ON ep.id_fornecedor = f.id_fornecedor "
-                . "INNER JOIN cw_produto p ON ep.id_produto = p.id_produto WHERE id_entrada_produto = {$p}", "p.nome_produto as nomep, "
-                . "p.lote_produto as lp, "
-                . "p.apresentacao_produto as ap, "
-                . "ep.data_entrada_produto as dtexp, "
-                . "ep.id_entrada_produto as ident, "
-                . "ep.nota_fiscal_entrada_produto as nota, "
-                . "ep.quantidade_entrada_produto as quant, "
-                . "ep.transporte_entrada_produto as transp, "
-                . "f.id_fornecedor as idf, "
-                . "f.nome_fornecedor as nf, "
-                . "f.cnpj_fornecedor as cnpjf");
+        $entrada = DBView("rastreamento_entrada", "WHERE id_entrada = {$p}", "id_entrada as ident, produto as nomep, "
+                . "lote as lp, id_fornecedor as idf, "
+                . "fornecedor as nf, cnpj_fornecedor as cnpjf, nota, dtent, quant_ent");
 
 // se não encontrar os resultados
         if ($entrada == FALSE) {
@@ -90,24 +60,18 @@ try {
                     <div class="col-1"></div>
                     <form style="padding: 2%;" class="col-10 border border-secondary" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" autocomplete="on">
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-8">
                                 <label for="Produto">Produto</label>
                                 <input type="hidden" value="<?php echo $ent['ident'] ?>" name="id_entrada_produto">
-                                <input class="form-control" type="text" id="Produto" value="<?php echo $ent['nomep'] ?>" name="nome_produto" readonly>
+                                <input class="form-control" type="text" id="Produto" value="<?php echo $ent['nomep'] ?>" readonly>
                             </div>
-                        </div>
-                        <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="Lote">Lote</label>
                                 <input class="form-control" type="text" id="Lote" value="<?php echo $ent['lp'] ?>" readonly>
                             </div>
-                            <div class="form-group col-md-8">
-                                <label for="apres">Apresentação</label>
-                                <input class="form-control" type="text" id="apres" value="<?php echo $ent['ap'] ?>" readonly>
-                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-7">
+                            <div class="form-group col-md-8">
                                 <label for="Fornecedor">Fornecedor - CNPJ</label>
                                 <select class="form-control" id="Fornecedor" name="id_fornecedor">
                                     <option value="<?php echo $ent['idf'] ?>" ><?php echo $ent['nf'] . " - " . $ent['cnpjf'] ?></option>
@@ -122,25 +86,19 @@ try {
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="form-group col-md-5">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
                                 <label for="guia">Nota Fiscal</label>
                                 <input class="form-control" type="text" id="guia" value="<?php echo $ent['nota'] ?>" name="guia" maxlength="50" required>
                             </div>
-                        </div>
-                        <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="dtexp">Data de Expedição</label>
-                                <input class="form-control" type="date" id="dtexp"  value="<?php echo $ent['dtexp'] ?>" name="data" required>
+                                <input class="form-control" type="date" id="dtexp"  value="<?php echo $ent['dtent'] ?>" name="data" required>
                             </div>
-                            <div class="form-group col-md-8">
-                                <label for="Transportadora">Transportadora</label>
-                                <input class="form-control" type="text" id="Transportadora" value="<?php echo $ent['transp'] ?>" name="transportadora" maxlength="100">
-                            </div>
-                        </div>
-                        <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="Quantidade">Quantidade</label>
-                                <input class="form-control" type="number" max="2000000000" id="Quantidade" value="<?php echo $ent['quant'] ?>"  name="quantidade" required>
+                                <input class="form-control" type="number" max="2000000000" id="Quantidade" value="<?php echo $ent['quant_ent'] ?>"  name="quantidade" required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary" name="btaltentproduto" onclick="return confirm('Os dados estão corretos?')" >Alterar</button>

@@ -6,7 +6,7 @@ try {
     require_once '..\conexao\conexao.php';
     require_once '..\conexao\database.php';
     require_once 'header.php';
-    
+
     Acesso(2);
 
 //Se não tiver o get do id do produto, nem tenta
@@ -47,13 +47,13 @@ try {
                 <form action = "<?php echo $_SERVER['PHP_SELF'] . "?p=" . $_GET['p'] ?>" method = "post" class = "form-inline">
                     <label class = "mr-sm-2" for = "pesqcli">Cliente:</label>
                     <input class = "form-control mr-sm-2" type = "search" id = "pesqcli" name = "pesq" required placeholder="cliente, email"  aria-label = "Search">
-                    <button class = "btn btn-outline-primary my-2 my-sm-0" type = "submit" name = "btpesq">Pesquisar</button>
+                    <button class = "btn btn-outline-primary my-2 my-sm-0" type = "submit" >Pesquisar</button>
                 </form>
             </div>
         </div>
 
         <?php
-        if (isset($_POST['btpesq'])) {
+        if (isset($_POST['pesq'])) {
 
             $pesq = $_POST['pesq'];
             //pega o cliente com a pesquisa
@@ -62,7 +62,8 @@ try {
                     . " OR `telefone_cliente`  LIKE '%{$pesq}%'"
                     . " OR `celular_cliente`  LIKE '%{$pesq}%'"
                     . " OR `email_cliente`  LIKE '%{$pesq}%'"
-                    . " ORDER BY `nome_cliente`");
+                    . " ORDER BY `nome_cliente`", "nome_cliente as cli, email_cliente as email, telefone_cliente as tel, "
+                    . "celular_cliente as cel, id_cliente as id");
             ?>
             <div class = "row">
                 <div class = "table-responsive  col-12">
@@ -74,7 +75,6 @@ try {
                                 <th scope = "col">Email</th>
                                 <th scope = "col">Telefone</th>
                                 <th scope = "col">Celular</th>
-                                <th scope = "col">Endereço</th>
                                 <th scope = "col">Ação</th>
                             </tr>
                         </thead>
@@ -83,7 +83,7 @@ try {
                             if ($cliente == false) {
                                 ?>
                                 <tr>
-                                    <td colspan="8">Não existem clientes com esta pesquisa</td>
+                                    <td colspan="6">Não existem clientes com esta pesquisa</td>
                                 </tr>                
                                 <?php
                             } else {
@@ -92,12 +92,11 @@ try {
                                     ?>
                                     <tr>
                                         <th scope="row"><?php echo $q++; ?></th>
-                                        <td><?php echo $a['nome_cliente'] ?></td>
-                                        <td><?php echo $a['email_cliente'] ?></td>
-                                        <td><?php echo $a['telefone_cliente'] ?></td>
-                                        <td><?php echo $a['celular_cliente'] ?></td>
-                                        <td><?php echo $a['endereco_cliente'] ?></td>
-                                        <td title="Selecionar"><a href="saida_produto.php?p=<?php echo $_GET['p'] . '&c=' . $a['id_cliente'] ?>" onclick="return confirm('Este é o Cliente?')"><img src="../_assets/_img/user_add.png" /></a></td>
+                                        <td><?php echo $a['cli'] ?></td>
+                                        <td><?php echo $a['email'] ?></td>
+                                        <td><?php echo $a['tel'] ?></td>
+                                        <td><?php echo $a['cel'] ?></td>
+                                        <td title="Selecionar"><a href="saida_produto.php?p=<?php echo $_GET['p'] . '&c=' . $a['id'] ?>" onclick="return confirm('Este é o Cliente?')"><img src="../_assets/_img/user_add.png" /></a></td>
                                     </tr>
                                     <?php
                                 }
@@ -113,8 +112,7 @@ try {
 
             $p = addslashes($_GET['p']);
             $c = addslashes($_GET['c']);
-            $prod = DBRead("produto", "WHERE id_produto = {$p}",
-                    "id_produto, nome_produto, lote_produto, apresentacao_produto");
+            $prod = DBView("estoque", "WHERE id_lote = {$p}", "id_lote, produto, lote");
             $cli = DBRead("cliente", "WHERE id_cliente = {$c}", "id_cliente, nome_cliente");
             $tipoP = DBRead("tipo_pedido");
 
@@ -138,27 +136,21 @@ try {
                             <div class="col-1"></div>
                             <form style="padding: 2%;" class="col-10 border border-secondary" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" autocomplete="on">
                                 <div class="form-row">
-                                    <input class="form-control" type="hidden" name="id_produto" value="<?php echo $p['id_produto'] ?>">
-                                    <div class="form-group col-md-12">
+                                    <input class="form-control" type="hidden" name="id_lote" value="<?php echo $p['id_lote'] ?>">
+                                    <div class="form-group col-md-8">
                                         <label for="Produto">Produto</label>
-                                        <input class="form-control" type="text" id="Produto" value="<?php echo $p['nome_produto'] ?>" name="nome_produto" readonly>
+                                        <input class="form-control" type="text" id="Produto" value="<?php echo $p['produto'] ?>" name="produto" readonly>
                                     </div>
-                                </div>
-                                <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="Lote">Lote</label>
-                                        <input class="form-control" type="text" id="Lote" value="<?php echo $p['lote_produto'] ?>" name="lote_produto" readonly>
-                                    </div>
-                                    <div class="form-group col-md-8">
-                                        <label for="apres">Apresentação</label>
-                                        <input class="form-control" type="text" id="apres" value="<?php echo $p['apresentacao_produto'] ?>" name="apresentacao_produto" readonly>
+                                        <input class="form-control" type="text" id="Lote" value="<?php echo $p['lote'] ?>" name="lote" readonly>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <input class="form-control" type="hidden" name="id_cliente" value="<?php echo $c['id_cliente'] ?>" >
                                     <div class="form-group col-md-7">
                                         <label for="Fornecedor">Cliente</label>
-                                        <input class="form-control" type="text" id="Fornecedor" value="<?php echo $c['nome_cliente'] ?>" name="nome_cliente" readonly>
+                                        <input class="form-control" type="text" id="Fornecedor" value="<?php echo $c['nome_cliente'] ?>" name="cliente" readonly>
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="guia">Guia de Remessa</label>
@@ -172,19 +164,19 @@ try {
                                     </div>
                                     <div class="form-group col-md-8">
                                         <label for="Transportadora">Transportadora CNPJ</label>
-                                        <input class="form-control" type="text" id="Transportadora" name="transportadora">
+                                        <input class="form-control" type="text" id="Transportadora" name="transp">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="Quantidade">Quantidade</label>
-                                        <input class="form-control" type="number" max="2000000000" id="Quantidade" name="quantidade" required>
+                                        <input class="form-control" type="number" max="2000000000" id="Quantidade" name="quant" required>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="tp">Tipo Pedido</label>
                                         <select class="form-control" id="tp" name="tp" required>
-                                            <?php foreach ($tipoP as $tp ){ ?>
-                                            <option value="<?php echo $tp['id_tipo_pedido'] ?>" ><?php echo $tp['tipo_pedido'] ?></option>
+                                            <?php foreach ($tipoP as $tp) { ?>
+                                                <option value="<?php echo $tp['id_tipo_pedido'] ?>" ><?php echo $tp['tipo_pedido'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

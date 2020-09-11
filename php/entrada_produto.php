@@ -62,7 +62,8 @@ try {
                     . " OR `celular_fornecedor`  LIKE '%{$pesq}%'"
                     . " OR `email_fornecedor`  LIKE '%{$pesq}%'"
                     . " OR `cnpj_fornecedor`  LIKE '%{$pesq}%'"
-                    . " ORDER BY `nome_fornecedor`");
+                    . " ORDER BY `nome_fornecedor`", "id_fornecedor as id, nome_fornecedor as forn, cnpj_fornecedor as cnpj, "
+                    . "email_fornecedor as email, telefone_fornecedor as tel, celular_fornecedor as cel");
             ?>
             <div class = "row">
                 <div class = "table-responsive  col-12">
@@ -75,7 +76,6 @@ try {
                                 <th scope = "col">Email</th>
                                 <th scope = "col">Telefone</th>
                                 <th scope = "col">Celular</th>
-                                <th scope = "col">Endereço</th>
                                 <th scope = "col">Ação</th>
                             </tr>
                         </thead>
@@ -84,7 +84,7 @@ try {
                             if ($fornecedor == false) {
                                 ?>
                                 <tr>
-                                    <td colspan="8">Não existem fornecedores com esta pesquisa</td>
+                                    <td colspan="7">Não existem fornecedores com esta pesquisa</td>
                                 </tr>                
                                 <?php
                             } else {
@@ -93,13 +93,12 @@ try {
                                     ?>
                                     <tr>
                                         <th scope="row"><?php echo $q++; ?></th>
-                                        <td><?php echo $a['nome_fornecedor'] ?></td>
-                                        <td><?php echo $a['cnpj_fornecedor'] ?></td>
-                                        <td><?php echo $a['email_fornecedor'] ?></td>
-                                        <td><?php echo $a['telefone_fornecedor'] ?></td>
-                                        <td><?php echo $a['celular_fornecedor'] ?></td>
-                                        <td><?php echo $a['endereco_fornecedor'] ?></td>
-                                        <td title="Selecionar"><a href="entrada_produto.php?p=<?php echo $_GET['p'] . '&f=' . $a['id_fornecedor'] ?>" onclick="return confirm('Este é o Fornecedor do Produto?')"><img src="../_assets/_img/user_add.png" /></a></td>
+                                        <td><?php echo $a['forn'] ?></td>
+                                        <td><?php echo $a['cnpj'] ?></td>
+                                        <td><?php echo $a['email'] ?></td>
+                                        <td><?php echo $a['tel'] ?></td>
+                                        <td><?php echo $a['cel'] ?></td>
+                                        <td title="Selecionar"><a href="entrada_produto.php?p=<?php echo $_GET['p'] . '&f=' . $a['id'] ?>" onclick="return confirm('Este é o Fornecedor do Produto?')"><img src="../_assets/_img/user_add.png" /></a></td>
                                     </tr>
                                     <?php
                                 }
@@ -115,8 +114,8 @@ try {
 
             $p = addslashes($_GET['p']);
             $f = addslashes($_GET['f']);
-            $prod = DBRead("produto", "WHERE id_produto = {$p}", "id_produto, nome_produto, lote_produto, apresentacao_produto");
-            $forn = DBRead("fornecedor", "WHERE id_fornecedor = {$f}", "id_fornecedor, nome_fornecedor");
+            $prod = DBView("estoque", "WHERE id_lote = {$p}", "id_lote, produto, lote");
+            $forn = DBRead("fornecedor", "WHERE id_fornecedor = {$f}", "id_fornecedor, nome_fornecedor, cnpj_fornecedor");
 
 // se não encontrar os resultados
             if ($prod == FALSE || $forn == FALSE) {
@@ -138,50 +137,42 @@ try {
                             <div class="col-1"></div>
                             <form style="padding: 2%;" class="col-10 border border-secondary" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" autocomplete="on">
                                 <div class="form-row">
-                                    <input class="form-control" type="hidden" name="id_produto" value="<?php echo $p['id_produto'] ?>">
-                                    <div class="form-group col-md-12">
+                                    <input class="form-control" type="hidden" name="id_lote" value="<?php echo $p['id_lote'] ?>">
+                                    <div class="form-group col-md-8">
                                         <label for="Produto">Produto</label>
-                                        <input class="form-control" type="text" id="Produto" value="<?php echo $p['nome_produto'] ?>" name="nome_produto" readonly>
+                                        <input class="form-control" type="text" id="Produto" value="<?php echo $p['produto'] ?>" name="produto" readonly>
                                     </div>
-                                </div>
-                                <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="Lote">Lote</label>
-                                        <input class="form-control" type="text" id="Lote" value="<?php echo $p['lote_produto'] ?>" name="lote_produto" readonly>
-                                    </div>
-                                    <div class="form-group col-md-8">
-                                        <label for="apres">Apresentação</label>
-                                        <input class="form-control" type="text" id="apres" value="<?php echo $p['apresentacao_produto'] ?>" name="apresentacao_produto" readonly>
+                                        <input class="form-control" type="text" id="Lote" value="<?php echo $p['lote'] ?>" name="lote" readonly>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <input class="form-control" type="hidden" name="id_fornecedor" value="<?php echo $f['id_fornecedor'] ?>" >
-                                    <div class="form-group col-md-7">
+                                    <div class="form-group col-md-8">
                                         <label for="Fornecedor">Fornecedor</label>
-                                        <input class="form-control" type="text" id="Fornecedor" value="<?php echo $f['nome_fornecedor'] ?>" name="nome_fornecedor" readonly>
+                                        <input class="form-control" type="text" id="Fornecedor" value="<?php echo $f['nome_fornecedor'] ?>" name="fornecedor" readonly>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-4">
+                                        <label for="Lote">CNPJ</label>
+                                        <input class="form-control" type="text" id="Lote" value="<?php echo $f['cnpj_fornecedor'] ?>" name="lote" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
                                         <label for="guia">Nota Fiscal</label>
                                         <input class="form-control" type="text" id="guia" name="guia" maxlength="50" required>
                                     </div>
-                                </div>
-                                <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="dtexp">Data de Expedição</label>
-                                        <input class="form-control" type="date" id="dtexp" name="data" required>
+                                        <input class="form-control" type="date" id="dtexp" value="<?php echo date("Y-m-d"); ?>" name="data" required>
                                     </div>
-                                    <div class="form-group col-md-8">
-                                        <label for="Transportadora">Transportadora</label>
-                                        <input class="form-control" type="text" id="Transportadora" name="transportadora" maxlength="100">
-                                    </div>
-                                </div>
-                                <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="Quantidade">Quantidade</label>
-                                        <input class="form-control" type="number" max="2000000000" id="Quantidade" name="quantidade" required>
+                                        <input class="form-control" type="number" max="2000000000" id="Quantidade" name="quant" required>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary" name="btentproduto" onclick="return confirm('Os dados estão corretos?')" >Cadastrar</button>
+                                <button type="submit" class="btn btn-primary" name="btentproduto" onclick="return confirm('Os dados estão corretos?')">Cadastrar</button>
                                 <button type="reset" class="btn btn-danger">Limpar</button>
                             </form>
                             <div class="col-1"></div>

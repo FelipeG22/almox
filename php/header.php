@@ -25,6 +25,18 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Lista
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="list_cliente.php">Cliente</a>
+                            <a class="dropdown-item" href="list_fornecedor.php">Fornecedor</a>
+                            <a class="dropdown-item" href="list_produto.php">Produto</a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Relatório
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -56,29 +68,36 @@
             </ul>
         </div>
         <div class="col-auto">
-            <h5 class="navbar-text"><?php
-                if ($_SESSION['apelido'] != null) {
-                    $no = $_SESSION['apelido'];
-                    //date_default_timezone_set('America/Sao_Paulo');
-                    $date = date('H');
-                    if (($date >= 0) AND ( $date < 6)) {
-                        echo "Boa noite, " . $no . " <a href='sair.php'>(Sair)</a>";
-                    } else {
-                        if (($date >= 6) AND ( $date < 12)) {
-                            echo "Bom dia, " . $no . " <a href='sair.php'>(Sair)</a>";
-                        } else {
-                            if (($date >= 12) AND ( $date < 18)) {
-                                echo "Boa tarde, " . $no . " <a href='sair.php'>(Sair)</a>";
-                            } else {
-                                if (($date >= 18) AND ( $date < 24)) {
-                                    echo "Boa noite, " . $no . " <a href='sair.php'>(Sair)</a>";
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <h5 class=" navbar-text"><?php
+                            if ($_SESSION['apelido'] != null) {
+                                $no = $_SESSION['apelido'];
+                                $date = date('H');
+                                switch ($date) {
+                                    case $date >= 0 and $date < 6:
+                                        echo "Boa noite, " . $no;
+                                        break;
+                                    case $date >= 6 and $date < 12:
+                                        echo "Bom dia, " . $no;
+                                        break;
+                                    case $date >= 12 and $date < 18:
+                                        echo "Boa tarde, " . $no;
+                                        break;
+                                    default:
+                                        echo "Boa noite, " . $no;
+                                        break;
                                 }
                             }
-                        }
-                    }
-                }
-                ?>
-            </h5>
+                            ?>
+                        </h5>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="sair.php">Sair</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
 </header>

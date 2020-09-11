@@ -1,13 +1,12 @@
-<?php
+﻿<?php
 try {
     require_once 'head.php';
     require_once '..\conexao\config.php';
     require_once '..\conexao\conexao.php';
     require_once '..\conexao\database.php';
     require_once 'header.php';
-    
+
     Acesso(2);
-    
     ?>
 
     <div class="row">
@@ -16,12 +15,22 @@ try {
         </div>
     </div>
     <div class="row navbar">
-        <div class="col-4 mr-auto"><a href="insert_produto.php"><img src="../_assets/_img/package_add.png" /> adicionar</a></div>
+        <div class="col mr-auto"></div>
         <div class="col-auto">
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get" class="form-inline">
-                <input class="form-control mr-sm-2" autofocus type="search" placeholder="produto, lote, apresentação" name="p" aria-label="Search">
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="btpesq">Pesquisar</button>
+                <input class="form-control mr-sm-2" autofocus type="search" placeholder="Produto" name="p" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Pesquisar</button>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 mr-auto"><a href="insert_produto.php"><img src="../_assets/_img/package_add.png" /> adicionar</a></div>
+        <div class="col-auto">
+            <div>Legenda: 
+                <img src="../_assets/_img/lupa.ico" /> Visualizar Lotes 
+                <img src="../_assets/_img/script.png" /> Relatório 
+                <img src="../_assets/_img/pencil.png" /> Alterar 
+                <img src="../_assets/_img/cancel.png" /> Excluir</div>
         </div>
     </div>
     <div class="row">
@@ -35,7 +44,7 @@ try {
                         <th scope="col">Produto</th>
                         <th scope="col" colspan="2" >Em estoque</th>
                         <?php if ($_SESSION['nivel'] == 1) { ?>
-                            <th scope="col" colspan="3">Ação</th>
+                            <th scope="col" colspan="4">Ação</th>
                         <?php } else { ?>
                             <th scope="col">Ação</th>
                         <?php } ?>
@@ -43,6 +52,13 @@ try {
                 </thead>
                 <tbody>
                     <?php
+			if (!isset($_GET['p'])){
+			?>
+			<tr>
+				<td colspan="11">Faça uma pesquisa dos produtos!</td>
+                        </tr>
+			<?php 
+			}else
                     if (isset($_GET['p'])) {
                         $pagina = (isset($_GET['pagina'])) ? (int) $_GET['pagina'] : 1;
                         $maxlinks = 4;
@@ -80,7 +96,7 @@ try {
                                 <tr>
                                     <th scope="row"><?php echo $q++; ?></th>
                                     <td><?php echo $a['produto'] ?></td>
-                                    <td><?php echo ($a['ent'] - $a['sai']) ?></td>
+                                    <td><?php echo number_format($a['ent'] - $a['sai'], null, '','.') ?></td>
                                     <?php if ($a['est'] == 0) { ?>
                                         <td title="Incluir no estoque"><a href="?i=<?php echo $a['id'] . "&v=1" ?>" onclick="return confirm('Deseja incluir este produto no estoque?')"><img src="../_assets/_img/package_go.png" /></a></td>
                                     <?php } else { ?>
@@ -88,6 +104,7 @@ try {
                                     <?php } ?>
                                     <td title="Visualizar"><a href="list_lote.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja visualizar os lotes deste produto?')"><img src="../_assets/_img/lupa.ico" /></a></td>
                                     <?php if ($_SESSION['nivel'] == 1) { ?>
+                                        <td title="Relatório"><a href="relatorio_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja visualizar Relatório do Produto?')"><img src="../_assets/_img/script.png" /></a></td>
                                         <td title="Alterar"><a href="alt_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja alterar Informações deste Produto?')"><img src="../_assets/_img/pencil.png" /></a></td>
                                         <td title="Excluir"><a href="del_produto.php?p=<?php echo $a['id'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                     <?php } ?>

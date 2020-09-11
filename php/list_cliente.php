@@ -7,7 +7,6 @@ try {
     require_once 'header.php';
 
     Acesso(2);
-    
     ?>
     <div class="row">
         <div class="col-12">
@@ -15,12 +14,18 @@ try {
         </div>
     </div>
     <div class="row navbar">
-        <div class="col-4 mr-auto"><a href="insert_cliente.php"><img src="../_assets/_img/user_add.png" /> adicionar</a></div>
+        <div class="col mr-auto"></div>
         <div class="col-auto">
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form-inline">
                 <input class="form-control mr-sm-2" type="search" placeholder="cliente, email, celular" name="p" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="btpesq">Pesquisar</button>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 mr-auto"><a href="insert_cliente.php"><img src="../_assets/_img/user_add.png" /> adicionar</a></div>
+        <div class="col-auto">
+            <div>Legenda: <img src="../_assets/_img/lupa.ico" /> Visualizar <img src="../_assets/_img/cancel.png" /> Excluir</div>
         </div>
     </div>
     <div class="row">
@@ -85,7 +90,7 @@ try {
                                     <td><?php echo $a['email_cliente'] ?></td>
                                     <td><?php echo $a['telefone_cliente'] ?></td>
                                     <td><?php echo $a['celular_cliente'] ?></td>
-                                    <td title="Alterar"><a href="alt_cliente.php?c=<?php echo $a['id_cliente'] ?>" onclick="return confirm('Deseja alterar Informações deste Cliente?')"><img src="../_assets/_img/lupa.ico" /></a></td>
+                                    <td title="Visualizar"><a href="alt_cliente.php?c=<?php echo $a['id_cliente'] ?>" onclick="return confirm('Deseja visualizar este Cliente?')"><img src="../_assets/_img/lupa.ico" /></a></td>
                                     <td title="Excluir"><a href="del_cliente.php?c=<?php echo $a['id_cliente'] ?>" onclick="return confirm('Deseja excluir Cliente?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                 </tr>
                                 <?php

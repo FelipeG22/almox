@@ -3,7 +3,6 @@ try {
     require 'conexao\config.php';
     require 'conexao\conexao.php';
     require 'conexao\database.php';
-    
     ?>
 
     <!DOCTYPE html>
@@ -14,6 +13,14 @@ try {
             <meta charset='UTF-8'>
             <meta name="robots" content="noindex">
             <link rel="shortcut icon" type="image/x-icon" href="_assets/_img/lqfex_logo.png" />
+            <link href="_assets/css/bootstrap-grid.min.css" rel="stylesheet" type="text/css" />
+            <link href="_assets/css/bootstrap-reboot.min.css" rel="stylesheet" type="text/css" />
+            <link href="_assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+            <link href="_assets/css/estilo.css" rel="stylesheet" type="text/css" />
+            <script src="_assets/jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
+            <script src="_assets/jquery/jquery.mask.min.js" type="text/javascript"></script>
+            <script src="_assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+            <script src="_assets/js/bootstrap.min.js" type="text/javascript"></script>
             <style class="cp-pen-styles">
                 .btn { display: inline-block; *display: inline; *zoom: 1; padding: 4px 10px 4px; margin-bottom: 0;
                        font-size: 13px; line-height: 18px; color: #333333; text-align: center;text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
@@ -99,7 +106,7 @@ try {
             <div class="login">
                 <h1>Almoxarifado Logístico</h1>
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-                    <input type="text" name="login_usuario" placeholder="Usuário" required="required" />
+                    <input type="text" name="login_usuario" placeholder="Usuário" autofocus required="required" />
                     <input type="password" name="senha_usuario" placeholder="Senha" required="required" />
                     <button type="submit" name="btlogar" class="btn btn-primary btn-block btn-large">Entrar</button>
                 </form>
@@ -107,7 +114,7 @@ try {
             <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
 
             <?php
-            include 'php\rodape.php';
+            require_once 'php\rodape.php';
         } catch (Exception $e) {
             echo $e->getMessage();
         }

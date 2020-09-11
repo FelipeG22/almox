@@ -8,27 +8,11 @@ try {
     
     Acesso(2);
 
-    if (isset($_POST['btaltproduto'])) {
-        $a = $_POST['id'];
-        $altdados = array(
-            'nome_produto' => addslashes(strtoupper(trim($_POST['produto'])))
-        );
-
-        $deubomalt = DBUpdate('produto', $altdados, "WHERE id_produto = '{$a}'");
-
-        if ($deubomalt) {
-            echo "<script language='JavaScript'>alert('Atualização dos dados do produto com sucesso!');</script>";
-            echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
-        } else {
-            echo "<script language='JavaScript'>alert('Erro ao alterar os dados!');</script>";
-        }
-    }
-
     if (!($_GET['p'])) {
         echo "<script language='JavaScript'>location.href='list_produto.php'</script>";
     } else {
         $a = $_GET['p'];
-        $alt_produto = DBRead('produto', " WHERE id_produto = '{$a}'");
+        $alt_produto = DBView('produto', " WHERE id = '{$a}'");
     }
 
     if ($alt_produto != FALSE) {
@@ -44,9 +28,9 @@ try {
                 <form style="padding: 2%;" class="col-10 border border-secondary" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" autocomplete="on">
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <input class="form-control" type="hidden" value="<?php echo $altp['id_produto'] ?>" name="id">
+                            <input class="form-control" type="hidden" value="<?php echo $altp['id'] ?>" name="id">
                             <label for="nome">Produto</label>
-                            <input class="form-control" type="text" id="nome" value="<?php echo $altp['nome_produto'] ?>" name="produto" maxlength="100" required autofocus placeholder="Produto">
+                            <input class="form-control" type="text" id="nome" value="<?php echo $altp['produto'] ?>" name="produto" maxlength="100" required autofocus placeholder="Produto">
                         </div>
                     </div>
                     <button type="submit" name="btaltproduto" class="btn btn-primary">Alterar</button>

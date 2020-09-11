@@ -6,27 +6,6 @@ try {
     require_once '..\conexao\database.php';
 
     Acesso(2);
-    
-    if (isset($_POST['btaltfornecedor'])) {
-        $a = $_POST['id_fornecedor'];
-        $altdados = array(
-            'nome_fornecedor' => addslashes($_POST['nome_fornecedor']),
-            'telefone_fornecedor' => addslashes($_POST['telefone_fornecedor']),
-            'celular_fornecedor' => addslashes($_POST['celular_fornecedor']),
-            'email_fornecedor' => addslashes($_POST['email_fornecedor']),
-            'cnpj_fornecedor' => addslashes($_POST['cnpj_fornecedor']),
-            'endereco_fornecedor' => addslashes($_POST['endereco_fornecedor'])
-        );
-
-        $deubomalt = DBUpdate('fornecedor', $altdados, "WHERE id_fornecedor = '{$a}'");
-
-        if ($deubomalt) {
-            echo "<script language='JavaScript'>alert('Atualização dos dados do fornecedor com sucesso!');</script>";
-            echo "<script language='JavaScript'>location.href='list_fornecedor.php'</script>";
-        } else {
-            echo "<script language='JavaScript'>alert('Erro ao alterar os dados!');</script>";
-        }
-    }
 
     if (!($_GET['f'])) {
         echo "<script language='JavaScript'>location.href='list_fornecedor.php'</script>";
@@ -84,7 +63,7 @@ try {
                             <small>Max: 500 caractéres</small>
                         </div>
                     </div>
-                    <button type="submit" name="btaltfornecedor" class="btn btn-primary">Alterar</button>
+                    <button type="submit" name="btaltfornecedor" onclick="return confirm('Os dados estão corretos?')" class="btn btn-primary">Alterar</button>
                 </form>
                 <div class="col-1"></div>
             </div>

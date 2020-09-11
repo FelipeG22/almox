@@ -7,27 +7,6 @@ try {
 
     Acesso(2);
 
-    if (isset($_POST['btaltcliente'])) {
-        $a = $_POST['id_cliente'];
-        $altdados = array(
-            'nome_cliente' => addslashes($_POST['nome_cliente']),
-            'telefone_cliente' => addslashes($_POST['telefone_cliente']),
-            'celular_cliente' => addslashes($_POST['celular_cliente']),
-            'email_cliente' => addslashes($_POST['email_cliente']),
-            'endereco_cliente' => addslashes($_POST['endereco_cliente'])
-        );
-
-        $deubomalt = DBUpdate('cliente', $altdados, "WHERE id_cliente = '{$a}'");
-
-        if ($deubomalt){
-            echo "<script language='JavaScript'>alert('Atualização dos dados do cliente com sucesso!');</script>";
-            echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
-            
-        } else {
-            echo "<script language='JavaScript'>alert('Erro ao alterar os dados!');</script>";
-        }
-    }
-
     if (!($_GET['c'])) {
         echo "<script language='JavaScript'>location.href='list_cliente.php'</script>";
     } else {
@@ -78,7 +57,7 @@ try {
                             <small>Max: 500 caractéres</small>
                         </div>
                     </div>
-                    <button type="submit" name="btaltcliente" class="btn btn-primary">Alterar</button>
+                    <button type="submit" name="btaltcliente" onclick="return confirm('Os dados estão corretos?')" class="btn btn-primary">Alterar</button>
                 </form>
                 <div class="col-1"></div>
             </div>

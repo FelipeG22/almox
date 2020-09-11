@@ -34,17 +34,17 @@ try {
         <?php
         $p = addslashes($_GET['p']);
         //pega o produto
-        $prod = DBView("rastreamento_entrada", "WHERE id_lote = {$p}", "produto, lote, dtf, dtv, ap");
+        $prod = DBView("rastreamento_produto", "WHERE id_lote = {$p}", "produto, lote, DATE_FORMAT(dtf, '%d/%m/%Y') as dtf, DATE_FORMAT(dtv, '%d/%m/%Y') as dtv");
         //pega a soma de todas as entradas
         $total_ent = DBView("rastreamento_entrada", "WHERE id_lote = {$p}", "SUM(quant_ent) as qdtentp");
         //pega a soma de todas as saídas
         $total_sai = DBView("rastreamento_saida", "WHERE id_lote = {$p}", "SUM(quant_sai) as qdtsaip");
         //pega todas as entradas do produto especificado
-        $entrada = DBView("rastreamento_entrada", "WHERE id_lote = {$p} ORDER BY dtent, nota", "dtent, nota, quant_ent, "
-                . "id_entrada, fornecedor, cnpj_fornecedor, transp");
+        $entrada = DBView("rastreamento_entrada", "WHERE id_lote = {$p} ORDER BY nota, dtent", "DATE_FORMAT(dtent, '%d/%m/%Y') as dtent, nota, quant_ent, "
+                . "id_entrada, fornecedor, cnpj_fornecedor");
         //pega todas as saidas do produto especificado
-        $saida = DBView("rastreamento_saida", "WHERE id_lote = {$p} ORDER BY dtsai, guia", "dtsai, id_saida, guia, quant_sai, "
-                . "transp_sai, cliente, tipo_pedido as tp");
+        $saida = DBView("rastreamento_saida", "WHERE id_lote = {$p} ORDER BY guia, dtsai", "DATE_FORMAT(dtsai, '%d/%m/%Y') as dtsai, id_saida, guia, quant_sai, "
+                . "transp, cliente, tipo_pedido as tp");
 
 // se não encontrar os resultados
         if ($prod == FALSE) {
@@ -92,9 +92,8 @@ try {
                                         <td>LOTE: <?php echo $p['lote'] ?></td>
                                     </tr>
                                     <tr>
-                                        <td>APRESENTAÇÃO: <?php echo $p['ap'] ?></td>
                                     <?php } foreach ($total_ent as $te) { ?>
-                                        <td>QUANTIDADE RECEBIDA: <?php echo $te['qdtentp'] ?></td>
+                                        <td colspan="2">QUANTIDADE RECEBIDA: <?php echo number_format($te['qdtentp'], null, '', '.') ?></td>
                                     <?php } ?>
                                 </tr>
                             </tbody>
@@ -104,6 +103,12 @@ try {
                 <div class = "row">
                     <div class = "col-12">
                         <h3 class = "h3 text-center bg-dark text-light">Quantidade Recebida</h3>
+                    </div>
+                </div>
+                <div class="row d-print-none">
+                    <div class="col mr-auto"></div>
+                    <div class="col-auto">
+                        <div>Legenda: <img src="../_assets/_img/pencil.png" /> Alterar <img src="../_assets/_img/cancel.png" /> Excluir</div>
                     </div>
                 </div>
                 <div class="row">
@@ -116,7 +121,6 @@ try {
                                     <th scope="col">Data</th>
                                     <th scope="col">Quantidade</th>
                                     <th scope="col">Fornecedor / CNPJ</th>
-                                    <th scope="col">Transportadora</th>
                                     <?php if ($_SESSION['nivel'] == 1) { ?>
                                         <th scope="col" colspan="2" class="d-print-none">Ação</th>
                                     <?php } else { ?>
@@ -139,9 +143,8 @@ try {
                                         <th scope="row"><?php echo $q++; ?></th>
                                         <td><?php echo $e['nota'] ?></td>
                                         <td><?php echo $e['dtent'] ?></td>
-                                        <td><?php echo $e['quant_ent'] ?></td>
+                                        <td><?php echo number_format($e['quant_ent'], null, '', '.') ?></td>
                                         <td><?php echo $e['fornecedor'] . "<br>" . $e['cnpj_fornecedor'] ?></td>
-                                        <td><?php echo $e['transp'] ?></td>
                                         <td class="d-print-none" title="Alterar"><a href="alt_entrada_produto.php?p=<?php echo $e['id_entrada'] ?>" onclick="return confirm('Deseja alterar Informações deste Recebimento?')"><img src="../_assets/_img/pencil.png" /></a></td>
                                         <?php if ($_SESSION['nivel'] == 1) { ?>
                                             <td class="d-print-none" title="Excluir"><a href="del_entrada_produto.php?e=<?php echo $e['id_entrada'] ?>" onclick="return confirm('Deseja excluir este Lançamento?')"><img src="../_assets/_img/cancel.png" /></a></td>
@@ -157,6 +160,12 @@ try {
                 <div class = "row">
                     <div class = "col-12">
                         <h3 class = "h3 text-center bg-dark text-light">Quantidade Expedida</h3>
+                    </div>
+                </div>
+                <div class="row d-print-none">
+                    <div class="col mr-auto"></div>
+                    <div class="col-auto">
+                        <div>Legenda: <img src="../_assets/_img/pencil.png" /> Alterar <img src="../_assets/_img/cancel.png" /> Excluir</div>
                     </div>
                 </div>
                 <div class="row">
@@ -192,12 +201,12 @@ try {
                                         <th scope="row"><?php echo $q++; ?></th>
                                         <td><?php echo $s['guia'] . " - " . $s['tp'] ?> </td>
                                         <td><?php echo $s['dtsai'] ?></td>
-                                        <td><?php echo $s['quant_sai'] ?></td>
+                                        <td><?php echo number_format($s['quant_sai'], null, '', '.') ?></td>
                                         <td><?php echo $s['cliente'] ?></td>
-                                        <td><?php echo $s['transp_sai'] ?></td>
-                                        <td class="d-print-none" title="Alterar"><a href="alt_saida_produto.php?p=//<?php echo $s['id_saida'] ?>" onclick="return confirm('Deseja alterar Informações desta saída?')"><img src="../_assets/_img/pencil.png" /></a></td>
+                                        <td><?php echo $s['transp'] ?></td>
+                                        <td class="d-print-none" title="Alterar"><a href="alt_saida_produto.php?p=<?php echo $s['id_saida'] ?>" onclick="return confirm('Deseja alterar Informações desta saída?')"><img src="../_assets/_img/pencil.png" /></a></td>
                                         <?php if ($_SESSION['nivel'] == 1) { ?>
-                                            <td class="d-print-none" title="Excluir"><a href="del_saida_produto.php?e=//<?php echo $s['id_saida'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
+                                            <td class="d-print-none" title="Excluir"><a href="del_saida_produto.php?e=<?php echo $s['id_saida'] ?>" onclick="return confirm('Deseja excluir Produto?')"><img src="../_assets/_img/cancel.png" /></a></td>
                                         <?php } ?>
                                     </tr>
                                     <?php
@@ -213,7 +222,7 @@ try {
                             <tbody>
                                 <tr>
                                     <?php foreach ($total_sai as $ts) { ?>
-                                        <td class="col-6 mr-auto">QUANTIDADE EXPEDIDA: <?php echo $ts['qdtsaip'] ?></td>
+                                        <td class="col-6 mr-auto">QUANTIDADE EXPEDIDA: <?php echo number_format($ts['qdtsaip'], null, '', '.') ?></td>
                                     <?php } ?>
                                     <td>CONFERIDO POR:</td>
                                 </tr>
@@ -226,7 +235,7 @@ try {
                         <table class="table table-sm table-bordered">
                             <tbody>
                                 <tr>
-                                    <td class="col">EM ESTOQUE: <?php echo ($te['qdtentp'] - $ts['qdtsaip']) ?></td>
+                                    <td class="col">EM ESTOQUE: <?php echo number_format($te['qdtentp'] - $ts['qdtsaip'], null, '', '.') ?></td>
                                 </tr>
                             </tbody>
                         </table>
